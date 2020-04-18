@@ -3,7 +3,10 @@ from django.http import HttpResponse
 # Create your views here.
 
 def index(request):
-    return render(request,"index.html")
+    return render(request,"Cestock/index.html")
 
-def PagPrincipal(request):
-    return render(request,"Menu.html")
+def PaginaPrincipal(request):
+    return render(request,"Cestock/PaginaPrincipal.html")
+
+def AtencionMedica(request):
+    return render(request,"Cestock/AtencionMedica.html")
