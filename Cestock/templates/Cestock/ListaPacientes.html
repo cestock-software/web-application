@@ -1,0 +1,48 @@
+{% extends 'Cestock/PaginaPrincipal.html' %} 
+{% load static %} 
+
+{% block css %}
+{% endblock css %} 
+
+{% block titulo %}Pacientes{% endblock titulo %} 
+
+{% block Pagina %}
+  <div class="container">
+    <div class="row tabla-lista">
+      <div class="col text-left">
+        <div class="col">
+          <h4>Listado de Pacientes</h4>
+        </div>
+        <br />
+        <div class="col-md-12">
+          <table class="table table-striped">
+            <thead>
+            {% if pacientes %}
+              <tr>
+                <th scope="col">Rut Paciente</th>
+                <th scope="col">Nombre</th>
+                <th scope="col">Apellido Materno</th>
+                <th scope="col">Apellido Paterno</th>
+              </tr>
+            </thead>
+            <tbody>
+              
+                {% for paciente in pacientes %}
+                  <tr>
+                    <th scope="row">{{ paciente.rut_paciente }}</th>
+                    <td>{{ paciente.nombre}}</td>
+                    <td>{{ paciente.ap_paterno }}</td>
+                    <td>{{ paciente.ap_materno }}</td>
+                    <td><button type="button" class="btn btn-primary">Ver Info. Carnet</button></td>
+                  </tr>
+                {% endfor%}
+              {% else %}
+                <h2>No Existen Pacientes Registrados.</h2>
+              {% endif %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock Pagina %}

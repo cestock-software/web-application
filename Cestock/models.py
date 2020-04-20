@@ -250,6 +250,7 @@ class Stock(models.Model):
         db_table = 'stock'
         verbose_name = 'Stock'
         verbose_name_plural = 'Stock'
+        ordering = ['id_stock']
 
     def __str__(self):
         return f'Stock: {self.id_stock}' 

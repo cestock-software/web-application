@@ -20,3 +20,7 @@ urlpatterns = [
     path('', include('Cestock.urls')),
     path('admin/', admin.site.urls),
 ]
+
+admin.site.site_header = "CESTOCK - AdminPanel"
+admin.site.site_title = "CESTOCK"
+admin.site.site_index_title = "Bienvenido a CESTOCK"
