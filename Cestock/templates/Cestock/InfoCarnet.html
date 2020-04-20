@@ -1,0 +1,20 @@
+{% extends 'Cestock/PaginaPrincipal.html' %} 
+{% load static %} 
+
+{% block css %}
+{% endblock css %} 
+
+{% block titulo %}Carnet Paciente{% endblock titulo %} 
+
+{% block Pagina %}
+  <div class="container">
+    <div class="row tabla-lista">
+        <div class="col text-left">
+            <form action="" method="post">
+                {% csrf_token %}
+                {{form.as_p}}
+            </form>
+        </div>
+    </div>
+  </div>
+{% endblock Pagina %}

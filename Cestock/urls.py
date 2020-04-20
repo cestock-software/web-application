@@ -6,5 +6,6 @@ urlpatterns = [
     path('main/', views.PaginaPrincipal, name='PaginaPrincipal'), 
     path('atencion-medica/', views.AtencionMedica, name='AtencionMedica'),
     path('lista-pacientes/', views.ListaPacientes, name='ListaPacientes'),
+    path('info-carnet/<str:rut>', views.InfoCarnetPaciente, name='InfoCarnetPaciente'),
     path('stock-medicamentos/', views.StockMedicamento, name='StockMedicamento')
 ]

@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from .models import *
+from .forms import CarnetForm
 # Create your views here.
 
 def index(request):
@@ -26,3 +27,11 @@ def StockMedicamento(request):
     context = { 'stock': stock, 'medicamentos': medicamentos }
 
     return render(request,"Cestock/StockMedicamento.html", context)
+
+def InfoCarnetPaciente(request, rut):
+    carnet = Carnet_Paciente.objects.get(rut_paciente=rut)
+
+    if request.method == 'GET':
+        form = CarnetForm(instance=carnet)
+
+    return render(request, 'Cestock/InfoCarnet.html', {'form': form})

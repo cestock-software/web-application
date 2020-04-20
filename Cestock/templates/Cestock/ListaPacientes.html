@@ -33,7 +33,7 @@
                     <td>{{ paciente.nombre}}</td>
                     <td>{{ paciente.ap_paterno }}</td>
                     <td>{{ paciente.ap_materno }}</td>
-                    <td><button type="button" class="btn btn-primary">Ver Info. Carnet</button></td>
+                    <td><a class="btn btn-primary" href="{% url 'InfoCarnetPaciente' paciente.rut_paciente %}">Ver Info. Carnet</a></td>
                   </tr>
                 {% endfor%}
               {% else %}
