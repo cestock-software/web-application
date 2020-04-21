@@ -38,16 +38,16 @@ class CarnetForm(forms.ModelForm):
         }
         
         widgets = {
-            'nro_ficha': forms.TextInput(attrs={'class': 'form-control', 'id': 'disabledTextInput'}) ,
-            'rut_paciente': forms.TextInput(attrs={'class': 'form-control', 'id': 'disabledTextInput'}),
-            'sector': forms.TextInput(attrs={'class': 'form-control', 'id': 'disabledTextInput'}),
-            'direccion': forms.TextInput(attrs={'class': 'form-control', 'id': 'disabledTextInput'}),
-            'nro_celular': forms.TextInput(attrs={'class': 'form-control', 'id': 'disabledTextInput'}),
-            'fecha_nacimiento': forms.TextInput(attrs={'class': 'form-control', 'id': 'disabledTextInput'}),
-            'sexo': forms.TextInput(attrs={'class': 'form-control', 'id': 'disabledTextInput'}),
-            'prevision': forms.TextInput(attrs={'class': 'form-control', 'id': 'disabledTextInput'}),
-            'grupo_sanguineo': forms.TextInput(attrs={'class': 'form-control', 'id': 'disabledTextInput'}),
-            'comuna': forms.TextInput(attrs={'class': 'form-control', 'id': 'disabledTextInput'}),
-            'cesfam': forms.TextInput(attrs={'class': 'form-control', 'id': 'disabledTextInput'}),
-            'estado': forms.TextInput(attrs={'class': 'form-control', 'id': 'disabledTextInput'}),
+            'nro_ficha': forms.TextInput(attrs={'class': 'form-control-sm form-control', 'readonly': ''}),
+            'rut_paciente': forms.TextInput(attrs={'class': 'form-control-sm form-control', 'readonly': ''}),
+            'sector': forms.TextInput(attrs={'class': 'form-control-sm form-control', 'readonly': ''}),
+            'direccion': forms.TextInput(attrs={'class': 'form-control-sm form-control', 'readonly': ''}),
+            'nro_celular': forms.TextInput(attrs={'class': 'form-control-sm form-control', 'readonly': ''}),
+            'fecha_nacimiento': forms.TextInput(attrs={'class': 'form-control-sm form-control', 'readonly': ''}),
+            'sexo': forms.TextInput(attrs={'class': 'form-control-sm form-control', 'readonly': ''}),
+            'prevision': forms.TextInput(attrs={'class': 'form-control-sm form-control', 'readonly': ''}),
+            'grupo_sanguineo': forms.TextInput(attrs={'class': 'form-control-sm form-control', 'readonly': ''}),
+            'comuna': forms.TextInput(attrs={'class': 'form-control-sm form-control', 'readonly': ''}),
+            'cesfam': forms.TextInput(attrs={'class': 'form-control-sm form-control', 'readonly': ''}),
+            'estado': forms.TextInput(attrs={'class': 'form-control-sm form-control', 'readonly': ''}),
         }

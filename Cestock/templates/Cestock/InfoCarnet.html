@@ -10,10 +10,23 @@
   <div class="container">
     <div class="row tabla-lista">
         <div class="col text-left">
-            <form action="" method="post">
-                {% csrf_token %}
-                {{form.as_p}}
-            </form>
+            <div class="col">
+              <h4>Información del Paciente</h4>
+            </div>
+            <br />
+            <div class="row">
+              <div class="mx-auto col-sm-10">
+                <div class="card">
+                  <div class="card-body">
+                    <form method="post">
+                    {% csrf_token %}
+                    {{form.as_p}}
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <br>
         </div>
     </div>
   </div>
