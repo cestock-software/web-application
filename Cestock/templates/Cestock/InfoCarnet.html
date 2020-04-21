@@ -23,10 +23,15 @@
         <div class="mx-auto col-sm-10">
           <div class="card">
             <div class="card-body">
+            
+              {% if carnet.rut_paciente == rut %}
               <form method="post">
                 {% csrf_token %} 
                 {{form.as_p}}
               </form>
+              {% elif rut is None %}
+              <h2>El Paciente No Posee Un Carnet.</h2>
+              {% endif %}
             </div>
           </div>
         </div>
