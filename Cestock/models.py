@@ -6,7 +6,7 @@ class Atencion_Medica(models.Model):
     nro_ficha = models.ForeignKey('Carnet_Paciente', db_column='nro_ficha',on_delete=models.CASCADE, null=False)
     rut_medico = models.ForeignKey('Medico', db_column='rut_medico',on_delete=models.CASCADE, null=False)
     id_receta = models.ForeignKey('Receta_Medica', db_column='id_receta',on_delete=models.CASCADE, null=False)
-    fecha_hora_atencion_medica = models.DateField()
+    fecha_hora_atencion_medica = models.DateTimeField()
 
     class Meta:
         db_table = 'atencion_medica'

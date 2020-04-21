@@ -1,7 +1,7 @@
 from django.shortcuts import render,redirect
 from django.http import HttpResponse
 from django.contrib.auth import authenticate,login
-from .forms import FormUsuarios
+from .forms import FormUsuarios,FormAtencion
 # Create your views here.
 
 
@@ -21,5 +21,18 @@ def index(request):
 def PaginaPrincipal(request):
     return render(request,"Cestock/PaginaPrincipal.html")
 
+def Prescripcion(request):
+    return render(request,"Cestock/Prescripcion.html")
+
 def AtencionMedica(request):
-    return render(request,"Cestock/AtencionMedica.html")
+    if request.method == "POST":
+        print(request.POST)
+        form = FormAtencion(request.POST)
+        print(form)
+        if form.is_valid():
+            form.save()
+            return redirect('Prescripcion')       
+    else:
+        form=FormAtencion()
+    print('error2')
+    return render(request,'Cestock/AtencionMedica.html',{'form':form})

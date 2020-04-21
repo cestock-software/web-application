@@ -1,0 +1,23 @@
+{% extends 'Cestock/PaginaPrincipal.html' %}
+{% load static %}
+    {% block css %}
+    {% endblock css %}
+
+    {% block titulo %}Atencion{% endblock titulo %}
+
+    {% block Pagina %}
+    <div class="container">
+            <h3>Prescripción</h3>
+            <div class="col-md">
+            <form id="formLog" method="POST" enctype='multipart/form-data' role="form">
+                {% csrf_token %}
+
+
+                <div class="form-group">
+                    <input type="submit" value="Generar" class="btn btn-success">
+                </div>
+            </form>
+        </div>
+    </div>
+
+{% endblock Pagina %}
