@@ -14,7 +14,7 @@ class Atencion_Medica(models.Model):
         verbose_name_plural = 'Atenciones Medicas'
     
     def __str__(self):
-        return f'Atencion Médica: {self.id_atencion_medica}'
+        return f'{self.id_atencion_medica}'
 
 class Carnet_Paciente(models.Model):
     nro_ficha = models.IntegerField(primary_key=True)
@@ -36,7 +36,7 @@ class Carnet_Paciente(models.Model):
         verbose_name_plural = 'Carnet Pacientes'
     
     def __str__(self):
-        return f'Carnet Paciente: {self.nro_ficha}'
+        return f'{self.nro_ficha}'
 
 class Detalle_Atencion(models.Model):
     id_detalle_atencion = models.IntegerField(primary_key=True)
@@ -53,7 +53,7 @@ class Detalle_Atencion(models.Model):
         verbose_name_plural = 'Detalle Atenciones'
 
     def __str__(self):
-        return f'Detalle Atención: {self.id_detalle_atencion}'
+        return f'{self.id_detalle_atencion}'
 
 class Detalle_Receta(models.Model):
     id_receta = models.OneToOneField('Receta_Medica', db_column='id_receta', primary_key=True, on_delete=models.CASCADE, null=False)
@@ -69,7 +69,7 @@ class Detalle_Receta(models.Model):
         verbose_name_plural = 'Detalle Recetas'
     
         def __str__(self):
-            return f'Detalle Receta: {self.id_receta}'
+            return f'{self.id_receta}'
 
 class Entrega(models.Model):
     id_entrega_medicamento = models.IntegerField(primary_key=True)
@@ -84,7 +84,7 @@ class Entrega(models.Model):
         verbose_name_plural = 'Entregas'
 
     def __str__(self):
-        return f'Entrega: {self.id_entrega_medicamento}' 
+        return f'{self.id_entrega_medicamento}' 
 
 class Error(models.Model):
     id_error = models.IntegerField(primary_key=True)
@@ -98,6 +98,9 @@ class Error(models.Model):
         verbose_name = 'Error'
         verbose_name_plural = 'Errores'
 
+    def __str__(self):
+        return f'{self.id_error}'
+    
 class Estado_Reserva(models.Model):
     id_estado_reserva = models.CharField(primary_key=True, max_length=255)
     tipo_estado = models.CharField(max_length=255)
@@ -108,7 +111,7 @@ class Estado_Reserva(models.Model):
         verbose_name_plural = 'Estado Reservas'
 
     def __str__(self):
-        return f'Estado Reserva: {self.id_estado_reserva}' 
+        return f'{self.id_estado_reserva}' 
 
 class Farmaceutico(models.Model):
     rut_farmaceutico = models.CharField(primary_key=True, max_length=255)
@@ -122,7 +125,7 @@ class Farmaceutico(models.Model):
         verbose_name_plural = 'Farmaceuticos'
     
     def __str__(self):
-        return f'Farmaceutico: {self.rut_farmaceutico}' 
+        return f'{self.rut_farmaceutico}' 
 
 class Farmacia(models.Model):
     id_farmacia = models.IntegerField(primary_key=True)
@@ -134,7 +137,7 @@ class Farmacia(models.Model):
         verbose_name_plural = 'Farmacias'
     
     def __str__(self):
-        return f'Farmacia: {self.id_farmacia}' 
+        return f'{self.id_farmacia}' 
 
 class Medicamento(models.Model):
     id_medicamento = models.IntegerField(primary_key=True)
@@ -149,7 +152,7 @@ class Medicamento(models.Model):
         verbose_name_plural = 'Medicamentos'
 
     def __str__(self):
-        return f'Medicamento: {self.id_medicamento}' 
+        return f'{self.id_medicamento}' 
 
 class Medico(models.Model):
     rut_medico = models.CharField(primary_key=True, max_length=255)
@@ -164,7 +167,7 @@ class Medico(models.Model):
         verbose_name_plural = 'Medicos'
 
     def __str__(self):
-        return f'Medico: {self.rut_medico}' 
+        return f'{self.rut_medico}' 
 
 class Paciente(models.Model):
     rut_paciente = models.CharField(primary_key=True, max_length=255)
@@ -178,7 +181,7 @@ class Paciente(models.Model):
         verbose_name_plural = 'Pacientes'
 
     def __str__(self):
-        return f'Rut Paciente: {self.rut_paciente}' 
+        return f'{self.rut_paciente}' 
 
 class Receta_Medica(models.Model):
     id_receta = models.IntegerField(primary_key=True)
@@ -189,7 +192,7 @@ class Receta_Medica(models.Model):
         verbose_name_plural = 'Recetas Médicas'
 
     def __str__(self):
-        return f'Receta Medica: {self.id_receta}' 
+        return f'{self.id_receta}' 
 
 class Reposicion(models.Model):
     id_reposicion = models.IntegerField(primary_key=True)
@@ -205,7 +208,7 @@ class Reposicion(models.Model):
         verbose_name_plural = 'Repocisiones'
     
     def __str__(self):
-        return f'Reposicion: {self.id_reposicion}' 
+        return f'{self.id_reposicion}' 
 
 class Reserva(models.Model):
     id_reserva = models.IntegerField(primary_key=True)
@@ -223,7 +226,7 @@ class Reserva(models.Model):
         verbose_name_plural = 'Reservas'
 
     def __str__(self):
-        return f'Reserva: {self.id_reserva}' 
+        return f'{self.id_reserva}' 
 
 class Retiro_Stock(models.Model):
     id_retiro = models.IntegerField(primary_key=True)
@@ -238,7 +241,7 @@ class Retiro_Stock(models.Model):
         verbose_name_plural = 'Restiros Stock'
 
     def __str__(self):
-        return f'Retiro Stock: {self.id_retiro}' 
+        return f'{self.id_retiro}' 
 
 class Stock(models.Model):
     id_stock = models.IntegerField(primary_key=True)
@@ -253,7 +256,7 @@ class Stock(models.Model):
         ordering = ['id_stock']
 
     def __str__(self):
-        return f'Stock: {self.id_stock}' 
+        return f'{self.id_stock}' 
 
 class Tipo_Retiro(models.Model):
     id_tipo_retiro = models.IntegerField(primary_key=True)
@@ -265,7 +268,7 @@ class Tipo_Retiro(models.Model):
         verbose_name_plural = 'Tipos Retiro'
 
     def __str__(self):
-        return f'Tipo Retiro: {self.id_tipo_retiro}' 
+        return f'{self.id_tipo_retiro}' 
 
 class Usuario(models.Model):
     id_usuario = models.IntegerField(primary_key=True)
@@ -280,4 +283,4 @@ class Usuario(models.Model):
         verbose_name_plural = 'Usuarios'
 
     def __str__(self):
-        return f'Usuario: {self.id_usuario}' 
+        return f'{self.id_usuario}' 

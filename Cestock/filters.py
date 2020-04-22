@@ -4,9 +4,11 @@ from .models import *
 class MedicamentoFilter(django_filters.FilterSet):
     class Meta:
         model = Medicamento
-        fields = ['nombre_medicamento']
+        fields = {'nombre_medicamento': ['icontains']}
+
 
 class PacienteFilter(django_filters.FilterSet):
     class Meta:
         model = Paciente
-        fields = ['rut_paciente']
+        fields = {'rut_paciente': ['icontains']}
+
