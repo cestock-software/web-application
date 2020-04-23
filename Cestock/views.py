@@ -1,7 +1,10 @@
 from django.shortcuts import render,redirect
 from django.http import HttpResponse
 from django.contrib.auth import authenticate,login
-from .forms import FormUsuarios,FormAtencion
+from .forms import FormUsuarios,FormAtencion,FormPrescripcion
+from django.utils import timezone
+from django.db.models import Count
+from .models import Atencion_Medica,Detalle_Atencion
 # Create your views here.
 
 
@@ -22,17 +25,34 @@ def PaginaPrincipal(request):
     return render(request,"Cestock/PaginaPrincipal.html")
 
 def Prescripcion(request):
-    return render(request,"Cestock/Prescripcion.html")
+    if request.method == "POST":
+        formP = FormPrescripcion(request.POST)
+        
+        if formP.is_valid():
+           # post = form.save(commit=False)
+            #post.id_detalle_atencion=1
+            formP.save()
+            print(formP)
+            return redirect('PaginaPrincipal')    
+    formP=FormPrescripcion()
+    print(request.POST)
+    return render(request,'Cestock/Prescripcion.html',{'formP':formP})
 
 def AtencionMedica(request):
     if request.method == "POST":
-        print(request.POST)
+       
         form = FormAtencion(request.POST)
-        print(form)
+     
         if form.is_valid():
+            post = form.save(commit=False)
+            post.fecha_hora_atencion_medica= timezone.now()
             form.save()
-            return redirect('Prescripcion')       
+            #question = Atencion_Medica.objects.get(id_atencion_medica=post.id_atencion_medica)
+            #return redirect('Prescripcion',pk=post.id_atencion_medica)  
+            return render(request,'Cestock/Prescripcion.html')   
+        else: 
+            print(form.errors)
     else:
+        
         form=FormAtencion()
-    print('error2')
     return render(request,'Cestock/AtencionMedica.html',{'form':form})

@@ -2,7 +2,7 @@ from django.db import models
 
 # Create your models here.
 class Atencion_Medica(models.Model):
-    id_atencion_medica = models.IntegerField(primary_key=True)
+    id_atencion_medica = models.IntegerField(auto_created=True,primary_key=True)
     nro_ficha = models.ForeignKey('Carnet_Paciente', db_column='nro_ficha',on_delete=models.CASCADE, null=False)
     rut_medico = models.ForeignKey('Medico', db_column='rut_medico',on_delete=models.CASCADE, null=False)
     id_receta = models.ForeignKey('Receta_Medica', db_column='id_receta',on_delete=models.CASCADE, null=False)
@@ -39,7 +39,7 @@ class Carnet_Paciente(models.Model):
         return f'Carnet Paciente: {self.nro_ficha}'
 
 class Detalle_Atencion(models.Model):
-    id_detalle_atencion = models.IntegerField(primary_key=True)
+    id_detalle_atencion = models.IntegerField(auto_created=True,primary_key=True)
     id_atencion_medica = models.ForeignKey('Atencion_Medica', db_column='id_atencion_medica',on_delete=models.CASCADE, null=False)
     sintomas = models.CharField(max_length=255)
     diagnostico = models.CharField(max_length=255)

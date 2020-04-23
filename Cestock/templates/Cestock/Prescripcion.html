@@ -6,12 +6,43 @@
     {% block titulo %}Atencion{% endblock titulo %}
 
     {% block Pagina %}
-    <div class="container">
-            <h3>Prescripción</h3>
-            <div class="col-md">
-            <form id="formLog" method="POST" enctype='multipart/form-data' role="form">
+    <div class="container">            
+        <h3>Prescripción</h3>
+        <div class="col-md">
+            <form  method="POST">
                 {% csrf_token %}
-
+                
+                <div class="col-md-6">
+                    <h5>Numero de Ficha:</h5>
+                    <div class="input-group form-group">
+                        <input type="text" class="form-control" name="id_detalle_atencion" placeholder="id_detalle_atencion">
+                    </div>
+                </div> <div class="col-md-6">
+                    <h5>Numero de Ficha:</h5>
+                    <div class="input-group form-group">
+                        <input type="text" class="form-control" name="id_atencion_medica" placeholder="id_atencion_medica">
+                    </div>
+                </div> <div class="col-md-6">
+                    <h5>Numero de Ficha:</h5>
+                    <div class="input-group form-group">
+                        <input type="text" class="form-control" name="sintomas" placeholder="sintomas">
+                    </div>
+                </div> <div class="col-md-6">
+                    <h5>Numero de Ficha:</h5>
+                    <div class="input-group form-group">
+                        <input type="text" class="form-control" name="diagnostico" placeholder="diagnostico">
+                    </div>
+                </div> <div class="col-md-6">
+                    <h5>Numero de Ficha:</h5>
+                    <div class="input-group form-group">
+                        <input type="text" class="form-control" name="tratamiento" placeholder="tratamiento">
+                    </div>
+                </div> <div class="col-md-6">
+                    <h5>Numero de Ficha:</h5>
+                    <div class="input-group form-group">
+                        <input type="text" class="form-control" name="observacion" placeholder="observacion">
+                    </div>
+                </div>
 
                 <div class="form-group">
                     <input type="submit" value="Generar" class="btn btn-success">
