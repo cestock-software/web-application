@@ -33,6 +33,11 @@
                 </div>
                 <div class="form-group">
                     <input type="submit" value="Iniciar Atencion" class="btn btn-success">
+                    {% if id_atencion_medica %}
+                        <a href="{% url 'Cestock:Prescripcion' id_atencion_medica %}" class="gray-link modal-trigger"></a>
+                    {% endif %}
+
+                    
                 </div>
             </form>
         </div>
