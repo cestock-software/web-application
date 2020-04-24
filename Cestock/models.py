@@ -4,9 +4,9 @@ from django.db import models
 class Atencion_Medica(models.Model):
     id_atencion_medica = models.IntegerField(primary_key=True)
     nro_ficha = models.ForeignKey('Carnet_Paciente', db_column='nro_ficha',on_delete=models.CASCADE, null=False)
-    rut_medico = models.ForeignKey('Medico', db_column='rut_medico',on_delete=models.CASCADE, null=False)
-    id_receta = models.ForeignKey('Receta_Medica', db_column='id_receta',on_delete=models.CASCADE, null=False)
-    fecha_hora_atencion_medica = models.DateField()
+    fecha_atencion_medica = models.DateField()
+    nombre_medico = models.CharField(max_length=255)
+    fecha_prox_atencion = models.DateField(blank=True, null=True)
 
     class Meta:
         db_table = 'atencion_medica'
@@ -20,15 +20,9 @@ class Carnet_Paciente(models.Model):
     nro_ficha = models.IntegerField(primary_key=True)
     rut_paciente = models.ForeignKey('Paciente', db_column='rut_paciente', on_delete=models.CASCADE, null=False)
     sector = models.CharField(max_length=255)
-    direccion = models.CharField(max_length=255)
-    nro_celular = models.CharField(max_length=255)
-    fecha_nacimiento = models.DateField()
-    sexo = models.CharField(max_length=255)
     prevision = models.CharField(max_length=255)
     grupo_sanguineo = models.CharField(max_length=255)
-    comuna = models.CharField(max_length=255)
     cesfam = models.CharField(max_length=255)
-    estado = models.CharField(max_length=1)
 
     class Meta:
         db_table = 'carnet_paciente'
@@ -39,13 +33,11 @@ class Carnet_Paciente(models.Model):
         return f'{self.nro_ficha}'
 
 class Detalle_Atencion(models.Model):
-    id_detalle_atencion = models.IntegerField(primary_key=True)
-    id_atencion_medica = models.ForeignKey('Atencion_Medica', db_column='id_atencion_medica',on_delete=models.CASCADE, null=False)
+    id_atencion_medica = models.ForeignKey('Atencion_Medica', db_column='id_atencion_medica', on_delete=models.CASCADE, null=False)
     sintomas = models.CharField(max_length=255)
     diagnostico = models.CharField(max_length=255)
-    tratamiento = models.CharField(max_length=255)
-    observacion = models.CharField(max_length=255)
-    control_medico = models.CharField(max_length=1)
+    tratamiento = models.CharField(max_length=255, blank=True, null=True)
+    observacion = models.CharField(max_length=255, blank=True, null=True)
 
     class Meta:
         db_table = 'detalle_atencion'
@@ -53,30 +45,13 @@ class Detalle_Atencion(models.Model):
         verbose_name_plural = 'Detalle Atenciones'
 
     def __str__(self):
-        return f'{self.id_detalle_atencion}'
-
-class Detalle_Receta(models.Model):
-    id_receta = models.OneToOneField('Receta_Medica', db_column='id_receta', primary_key=True, on_delete=models.CASCADE, null=False)
-    id_medicamento = models.ForeignKey('Medicamento', db_column='id_medicamento',on_delete=models.CASCADE, null=False)
-    id_entrega_medicamento = models.ForeignKey('Entrega', db_column='id_entrega_medicamento',on_delete=models.CASCADE, null=False)
-    id_reserva = models.ForeignKey('Reserva', db_column='id_reserva',on_delete=models.CASCADE, null=False)
-    duracion = models.CharField(max_length=255)
-    frecuencia = models.CharField(max_length=255)
-
-    class Meta:
-        db_table = 'detalle_receta'
-        verbose_name = 'Detalle Receta'
-        verbose_name_plural = 'Detalle Recetas'
-    
-        def __str__(self):
-            return f'{self.id_receta}'
+        return f'{self.id_atencion_medica}'
 
 class Entrega(models.Model):
     id_entrega_medicamento = models.IntegerField(primary_key=True)
-    id_farmacia = models.ForeignKey('Farmacia', db_column='id_farmacia',on_delete=models.CASCADE, null=False)
-    rut_farmaceutico = models.ForeignKey('Farmaceutico', db_column='rut_farmaceutico',on_delete=models.CASCADE, null=False)
-    fecha_hora_entrega = models.DateField()
-    fecha_proxima_entrega = models.DateField()
+    fecha_entrega = models.DateField()
+    fecha_proxima_entrega = models.DateField(blank=True, null=True)
+    nombre_farmaceutico = models.CharField(max_length=255)
 
     class Meta:
         db_table = 'entrega'
@@ -113,31 +88,23 @@ class Estado_Reserva(models.Model):
     def __str__(self):
         return f'{self.id_estado_reserva}' 
 
-class Farmaceutico(models.Model):
-    rut_farmaceutico = models.CharField(primary_key=True, max_length=255)
+class Informe_Medicamento(models.Model):
+    id_informe = models.IntegerField(primary_key=True)
+    id_tipo_informe = models.ForeignKey('Tipo_Informe', db_column='id_tipo_informe', on_delete=models.CASCADE, null=False)
+    id_medicamento = models.IntegerField()
+    nombre_medicamento = models.CharField(max_length=255)
+    cantidad = models.CharField(max_length=255)
     nombre_farmaceutico = models.CharField(max_length=255)
-    ap_paterno = models.CharField(max_length=255)
-    ap_materno = models.CharField(max_length=255)
+    observacion = models.CharField(max_length=255, blank=True, null=True)
 
     class Meta:
-        db_table = 'farmaceutico'
-        verbose_name = 'Farmaceutico'
-        verbose_name_plural = 'Farmaceuticos'
-    
-    def __str__(self):
-        return f'{self.rut_farmaceutico}' 
+        db_table = 'informe_medicamento'
+        verbose_name = 'Informe de Medicamento'
+        verbose_name_plural = 'Informes de Medicamentos'
 
-class Farmacia(models.Model):
-    id_farmacia = models.IntegerField(primary_key=True)
-    nro_farmacia = models.IntegerField()
-
-    class Meta:
-        db_table = 'farmacia'
-        verbose_name = 'Farmacia'
-        verbose_name_plural = 'Farmacias'
-    
     def __str__(self):
-        return f'{self.id_farmacia}' 
+        return f'{self.id_informe}'
+    
 
 class Medicamento(models.Model):
     id_medicamento = models.IntegerField(primary_key=True)
@@ -145,6 +112,9 @@ class Medicamento(models.Model):
     formato = models.CharField(max_length=255)
     gr_ml = models.CharField(max_length=255)
     laboratorio = models.CharField(max_length=255)
+    total_disponible = models.IntegerField()
+    total_reservado = models.IntegerField(blank=True, null=True)
+    total_retirado = models.IntegerField(blank=True, null=True)
 
     class Meta:
         db_table = 'medicamento'
@@ -154,26 +124,50 @@ class Medicamento(models.Model):
     def __str__(self):
         return f'{self.id_medicamento}' 
 
-class Medico(models.Model):
-    rut_medico = models.CharField(primary_key=True, max_length=255)
-    nombres = models.CharField(max_length=255)
-    ap_paterno = models.CharField(max_length=255)
-    ap_materno = models.CharField(max_length=255)
-    especialidad = models.CharField(max_length=255)
+class Medicamento_Entregado(models.Model):
+    id_entrega_medicamento = models.ForeignKey('Entrega', db_column='id_entrega_medicamento', on_delete=models.CASCADE, null=False)
+    id_medicamento_recetado = models.ForeignKey('Medicamento_Recetado', db_column='id_medicamento_recetado', on_delete=models.CASCADE, null=False)
+    cantidad_entregada = models.IntegerField()
 
     class Meta:
-        db_table = 'medico'
-        verbose_name = 'Medico'
-        verbose_name_plural = 'Medicos'
+        db_table = 'medicamento_entregado'
+        verbose_name = 'Medicamento Entregado'
+        verbose_name_plural = 'Medicmentos Entregados'
 
     def __str__(self):
-        return f'{self.rut_medico}' 
+        return f'{self.id_entrega_medicamento}'
+    
+class Medicamento_Recetado(models.Model):
+    id_medicamento_recetado = models.IntegerField(primary_key=True)
+    id_medicamento = models.ForeignKey('Medicamento', db_column='id_medicamento', on_delete=models.CASCADE, null=False)
+    id_receta_medica = models.ForeignKey('Receta_Medica', db_column='id_receta_medica', on_delete=models.CASCADE, null=False)
+    duracion = models.CharField(max_length=255)
+    frecuencia = models.CharField(max_length=255)
+    cantidad_recetada = models.IntegerField()
+
+    class Meta:
+        db_table = 'medicamento_recetado'
+        verbose_name = 'Medicamento Recetado'
+        verbose_name_plural = 'Medicamentos Recetados'
+
+    def __str__(self):
+        return f'{self.id_medicamento_recetado}'
+    
 
 class Paciente(models.Model):
     rut_paciente = models.CharField(primary_key=True, max_length=255)
     nombre = models.CharField(max_length=255)
     ap_paterno = models.CharField(max_length=255)
     ap_materno = models.CharField(max_length=255)
+    direccion = models.CharField(max_length=255)
+    email = models.CharField(max_length=255)
+    nro_celular = models.CharField(max_length=255)
+    fecha_nacimiento = models.DateField()
+    sexo = models.CharField(max_length=255)
+    comuna = models.CharField(max_length=255)
+    nombre_familiar = models.CharField(max_length=255)
+    nro_familiar = models.CharField(max_length=255)
+    email_familiar = models.CharField(max_length=255)
 
     class Meta:
         db_table = 'paciente'
@@ -185,6 +179,7 @@ class Paciente(models.Model):
 
 class Receta_Medica(models.Model):
     id_receta = models.IntegerField(primary_key=True)
+    id_atencion_medica = models.ForeignKey('Atencion_Medica', db_column='id_atencion_medica', on_delete=models.CASCADE, null=False)
 
     class Meta:
         db_table = 'receta_medica'
@@ -197,10 +192,10 @@ class Receta_Medica(models.Model):
 class Reposicion(models.Model):
     id_reposicion = models.IntegerField(primary_key=True)
     id_medicamento = models.ForeignKey('Medicamento', db_column='id_medicamento',on_delete=models.CASCADE, null=False)
-    rut_farmaceutico = models.ForeignKey('Farmaceutico', db_column='rut_farmaceutico',on_delete=models.CASCADE, null=False)
-    cantidad_unitaria = models.IntegerField()
-    fecha_hora_reposicion = models.DateField()
+    cantidad_repuesta = models.FloatField()
+    fecha_reposicion = models.DateField()
     fecha_vencimiento = models.DateField()
+    nombre_farmaceutico = models.CharField(max_length=255)
 
     class Meta:
         db_table = 'reposicion'
@@ -212,13 +207,11 @@ class Reposicion(models.Model):
 
 class Reserva(models.Model):
     id_reserva = models.IntegerField(primary_key=True)
-    id_medicamento = models.ForeignKey('Medicamento', db_column='id_medicamento',on_delete=models.CASCADE, null=False)
-    id_estado_reserva = models.ForeignKey('Estado_Reserva', db_column='id_estado_reserva',on_delete=models.CASCADE, null=False)
-    cantidad_unitaria = models.IntegerField()
+    id_medicamento_recetado = models.ForeignKey('Medicamento_', db_column='id_medicamento_recetado', on_delete=models.CASCADE, null=False)
+    id_estado_reserva = models.ForeignKey('Estado_Reserva', db_column='id_estado_reserva', on_delete=models.CASCADE, null=False)
+    cant_reservada = models.IntegerField()
     fecha_reserva = models.DateField()
-    fecha_retiro = models.DateField()
-    agregado = models.CharField(max_length=1)
-    descontado = models.CharField(max_length=1)
+    fecha_retiro = models.DateField(blank=True, null=True)
 
     class Meta:
         db_table = 'reserva'
@@ -228,54 +221,27 @@ class Reserva(models.Model):
     def __str__(self):
         return f'{self.id_reserva}' 
 
-class Retiro_Stock(models.Model):
-    id_retiro = models.IntegerField(primary_key=True)
-    id_medicamento = models.ForeignKey('Medicamento', db_column='id_medicamento',on_delete=models.CASCADE, null=False)
-    id_tipo_retiro = models.ForeignKey('Tipo_Retiro', db_column='id_tipo_retiro',on_delete=models.CASCADE, null=False)
-    cantidad = models.IntegerField()
-    fecha_retiro = models.DateField()
+class Tipo_Informe(models.Model):
+    id_tipo_informe = models.IntegerField(primary_key=True)
+    tipo_informe = models.CharField(max_length=255)
 
     class Meta:
-        db_table = 'retiro_stock'
-        verbose_name = 'Retiro Stock'
-        verbose_name_plural = 'Restiros Stock'
+        db_table = 'tipo_informe'
+        verbose_name = 'Tipo Informe'
+        verbose_name_plural = 'Tipo Informes'
 
     def __str__(self):
-        return f'{self.id_retiro}' 
-
-class Stock(models.Model):
-    id_stock = models.IntegerField(primary_key=True)
-    id_medicamento = models.ForeignKey('Medicamento', db_column='id_medicamento',on_delete=models.CASCADE, null=False)
-    cant_disponible = models.IntegerField()
-    cant_reservada = models.IntegerField()
-
-    class Meta:
-        db_table = 'stock'
-        verbose_name = 'Stock'
-        verbose_name_plural = 'Stock'
-        ordering = ['id_stock']
-
-    def __str__(self):
-        return f'{self.id_stock}' 
-
-class Tipo_Retiro(models.Model):
-    id_tipo_retiro = models.IntegerField(primary_key=True)
-    razon_retiro = models.CharField(max_length=255)
-
-    class Meta:
-        db_table = 'tipo_retiro'
-        verbose_name = 'Tipo Retiro'
-        verbose_name_plural = 'Tipos Retiro'
-
-    def __str__(self):
-        return f'{self.id_tipo_retiro}' 
+        return f'{self.id_tipo_informe}'
+    
 
 class Usuario(models.Model):
     id_usuario = models.IntegerField(primary_key=True)
-    nombre_usuario = models.CharField(max_length=255)
+    rut_usuario = models.CharField(max_length=255)
     contrasena = models.CharField(max_length=255)
-    estado = models.CharField(max_length=1)
     tipo_usuario = models.CharField(max_length=255)
+    nivel_usuario = models.IntegerField()
+    nombre_completo = models.CharField(max_length=255)
+
 
     class Meta:
         db_table = 'usuario'
