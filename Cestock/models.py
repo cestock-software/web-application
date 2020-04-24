@@ -207,7 +207,7 @@ class Reposicion(models.Model):
 
 class Reserva(models.Model):
     id_reserva = models.IntegerField(primary_key=True)
-    id_medicamento_recetado = models.ForeignKey('Medicamento_', db_column='id_medicamento_recetado', on_delete=models.CASCADE, null=False)
+    id_medicamento_recetado = models.ForeignKey('Medicamento', db_column='id_medicamento_recetado', on_delete=models.CASCADE, null=False)
     id_estado_reserva = models.ForeignKey('Estado_Reserva', db_column='id_estado_reserva', on_delete=models.CASCADE, null=False)
     cant_reservada = models.IntegerField()
     fecha_reserva = models.DateField()

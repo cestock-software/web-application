@@ -12,7 +12,7 @@ class ListaDetalleAtencion(admin.ModelAdmin):
     list_display = ['id_atencion_medica', 'sintomas', 'diagnostico', 'tratamiento', 'observacion']
 
 class ListaEntrega(admin.ModelAdmin):
-    list_display = ['id_entrega_medicamento', 'feha_entrega', 'fecha_proxima_entrega', 'nombre_farmaceutico']
+    list_display = ['id_entrega_medicamento', 'fecha_entrega', 'fecha_proxima_entrega', 'nombre_farmaceutico']
 
 class ListaError(admin.ModelAdmin):
     list_display = ['id_error', 'nro_error', 'codigo_error', 'fecha_hora_error', 'lugar_error']
@@ -48,7 +48,7 @@ class ListaTipoInforme(admin.ModelAdmin):
     list_display = ['id_tipo_informe', 'tipo_informe']
 
 class ListaUsuario(admin.ModelAdmin):
-    list_display = ['id_usuario', 'nombre_usuario', 'contrasena', 'tipo_usuario', 'nivel_usuario', 'nombre_completo']
+    list_display = ['id_usuario', 'rut_usuario', 'contrasena', 'tipo_usuario', 'nivel_usuario', 'nombre_completo']
 
 
 admin.site.register(Atencion_Medica, ListaAtencion)
