@@ -44,31 +44,31 @@
                 cellspacing="0"
                 width="100%"
               >
-                {% if medicamentos and stock %}
+                {% if medicamentos %}
                 <thead>
                   <tr>
-                    <th class="th-sm" scope="col">Id Stock</th>
+                    <th class="th-sm" scope="col">Id Medicamento</th>
                     <th class="th-sm" scope="col">Nombre Medicamento</th>
+                    <th class="th-sm" scope="col">Formato</th>
                     <th class="th-sm" scope="col">GR / ML</th>
                     <th class="th-sm" scope="col">Laboratorio</th>
-                    <th class="th-sm" scope="col">Cantidad Disponible</th>
-                    <th class="th-sm" scope="col">Cantidad Reservada</th>
+                    <th class="th-sm" scope="col">Total Disponible</th>
+                    <th class="th-sm" scope="col">Total Reservado</th>
+                    <th class="th-sm" scope="col">Total Retirado</th>
                   </tr>
                 </thead>
                 <tbody>
                   {% for medicamento in medicamentos %} 
-                  {% for stock in stock%}
-                  {% if stock.id_medicamento == medicamento %}
                   <tr>
-                    <th scope="row">{{ stock.id_stock }}</th>
+                    <th scope="row">{{ medicamento.id_medicamento }}</th>
                     <td>{{ medicamento.nombre_medicamento}}</td>
                     <td>{{ medicamento.gr_ml }}</td>
+                    <td>{{ medicamento.formato }}</td>
                     <td>{{ medicamento.laboratorio }}</td>
-                    <td>{{ stock.cant_disponible }}</td>
-                    <td>{{ stock.cant_reservada }}</td>
+                    <td>{{ medicamento.total_disponible }}</td>
+                    <td>{{ medicamento.total_reservado }}</td>
+                    <td>{{ medicamento.total_retirado }}</td>
                   </tr>
-                  {% endif %} 
-                  {% endfor %} 
                   {% endfor%}
                 </tbody>
                 {% else %}

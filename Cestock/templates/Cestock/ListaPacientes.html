@@ -43,18 +43,18 @@
                   {% if pacientes %}
                   <tr>
                     <th scope="col">Rut Paciente</th>
-                    <th scope="col">Nombre</th>
-                    <th scope="col">Apellido Materno</th>
-                    <th scope="col">Apellido Paterno</th>
+                    <th scope="col">Nombre Paciente</th>
+                    <th scope="col">Fecha Nacimiento</th>
+                    <th scope="col">Sexo</th>
                   </tr>
                 </thead>
                 <tbody>
                   {% for paciente in pacientes %}
                   <tr>
                     <th scope="row">{{ paciente.rut_paciente }}</th>
-                    <td>{{ paciente.nombre}}</td>
-                    <td>{{ paciente.ap_paterno }}</td>
-                    <td>{{ paciente.ap_materno }}</td>
+                    <td>{{ paciente.nombre}} {{ paciente.ap_paterno }} {{ paciente.ap_materno }}</td>
+                    <td>{{ paciente.fecha_nacimiento }}</td>
+                    <td>{{ paciente.sexo }}</td>
                     <td>
                       <a
                         class="btn btn-primary"

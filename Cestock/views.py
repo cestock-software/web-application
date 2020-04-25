@@ -31,14 +31,12 @@ def ListaPacientes(request):
 
 
 def StockMedicamento(request):
-    stock = Stock.objects.all()
     medicamentos = Medicamento.objects.all()
 
     filtro = MedicamentoFilter(request.GET, queryset=medicamentos)
     medicamentos = filtro.qs
 
-    context = {
-        'stock': stock, 
+    context = { 
         'medicamentos': medicamentos,
         'filtro': filtro
     }
