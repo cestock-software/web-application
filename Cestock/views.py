@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from .models import *
-from .forms import CarnetForm
+from .forms import CarnetForm, PacienteForm
 from .filters import *
 
 # Create your views here.
@@ -42,6 +42,14 @@ def StockMedicamento(request):
     }
 
     return render(request, "Cestock/StockMedicamento.html", context)
+
+def InfoPersonalPaciente(request, rut):
+    paciente = Paciente.objects.get(rut_paciente=rut)
+
+    if request.method == 'GET':
+        form = PacienteForm(instance=paciente)
+    
+    return render(request, 'Cestock/InfoPersonal.html', {'form': form})
 
 
 def InfoCarnetPaciente(request, rut):
