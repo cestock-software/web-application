@@ -1,46 +1,112 @@
 {% extends 'Cestock/PaginaPrincipal.html' %}
 {% load static %}
     {% block css %}
+    <style>
+      .textotal{
+        width: 100% !important;
+      }  
+      .rojo{
+        color: rgb(252, 2, 2);
+      }  
+    </style>
+    
     {% endblock css %}
-
     {% block titulo %}Atencion{% endblock titulo %}
 
     {% block Pagina %}
+
     <div class="container">
             <h3>Datos de Atencion</h3>
             <div class="col-md">
             <form id="formLog" method="POST" >
                 {% csrf_token %}
-                <h5>Id atencion(beta):</h5>
-                <div class="input-group form-group">
-                    <input type="text" class="form-control" name="id_atencion_medica"  > 
-                </div>
-                <div class="row">
-                    <div class="col-md-6">
-                        <h5>Rut de Medico:</h5>
+                <div class="row">                  
+                    <!-- <div class="col-md-6">
+                        <h5>Nombre de Medico:</h5>
                         <div class="input-group form-group">
-                            <input type="text" class="form-control" name="rut_medico" placeholder="Ej:admin">     
+                            {% if user.is_authenticated %}
+                            <input type="text" class="form-control" name="nombre_medico" value="{{ user.username }}">     
+                            {% endif %}
                         </div>
                     </div>
                     
                     <div class="col-md-6">
                         <h5>Numero de Ficha:</h5>
                         <div class="input-group form-group">
-                            <input type="text" class="form-control" name="nro_ficha" placeholder="Numero de Ficha">
+                            <input type="text" class="form-control" name="nro_ficha" placeholder="Numero de Ficha" required>
                         </div>
-                    </div>
+                    </div> -->
+
+                    {{form.nombre_medico.label}}
+                        {% if user.is_authenticated %}
+                            <input type="text" class="form-control" name="nombre_medico" value="{{ user.username }}">     
+                        {% endif %}
+                    {{form.nombre_medico.errors}}
+
                     
-                </div>
-                <div class="form-group">
-                    <input type="submit" value="Iniciar Atencion" class="btn btn-success">
-                    {% if id_atencion_medica %}
-                        <a href="{% url 'Cestock:Prescripcion' id_atencion_medica %}" class="gray-link modal-trigger"></a>
+                    {{form.nro_ficha.label}}
+                    {{form.nro_ficha}}
+                    {% if form.nro_ficha.errors %}
+                        
+                        {% for error in form.nro_ficha.errors %}
+                            <p class="rojo">*error cl*</p>
+                        {% endfor %}
+                     
                     {% endif %}
 
                     
+                </div>
+                    <hr>
+                    <h2>Destalles</h2>
+                    <div class="row">
+                        <div class="col-md-12">
+                                {{formP.sintomas.label}}
+                        <br>
+                        {{formP.sintomas}}
+                        {{formP.sintomas.errors}}
+                        </div>
+                        
+                    </div>
+                        
+                    <div class="row">
+                        <div class="col-md-12">
+                        {{formP.diagnostico.label}}
+                        <br>
+                        {{formP.diagnostico}}
+                        {{formP.diagnostico.errors}}
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-12">
+                        {{formP.tratamiento.label}}
+                        <br>
+                        {{formP.tratamiento}}
+                        {{formP.tratamiento.errors}}
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-12">
+                        {{formP.observacion.label}}
+                        <br>
+                        {{formP.observacion}}
+                        {{formP.observacion.errors}}
+                        </div>
+                    </div>
+                <br>
+                <div class="form-group">
+                    <input type="submit" value="Iniciar Atencion" class="btn btn-success">
+                    {% if atencion_medica %}
+                        <a href="{% url 'Cestock:Prescripcion' ID %}" class="gray-link modal-trigger"></a>
+                    {% endif %}
+
                 </div>
             </form>
         </div>
     </div>
 
+    
+
 {% endblock Pagina %}
+

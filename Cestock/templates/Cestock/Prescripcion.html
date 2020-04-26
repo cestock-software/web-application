@@ -11,38 +11,42 @@
         <div class="col-md">
             <form  method="POST">
                 {% csrf_token %}
-                
-                <div class="col-md-6">
-                    <h5>ID DETALLE:</h5>
-                    <div class="input-group form-group">
-                        <input type="text" class="form-control" name="id_detalle_atencion" >
-                    </div>
-                </div> <div class="col-md-6">
-                    <h5>ID ATENCION:</h5>
-                    <div class="input-group form-group">
-                        <input type="text" class="form-control" name="id_atencion_medica"  value="{{ pk.id_atencion_medica }}" >
-                    </div>
-                </div> <div class="col-md-6">
-                    <h5>SINTOMAS:</h5>
-                    <div class="input-group form-group">
-                        <input type="text" class="form-control" name="sintomas" placeholder="sintomas">
-                    </div>
-                </div> <div class="col-md-6">
-                    <h5>DIAGNOSTICO:</h5>
-                    <div class="input-group form-group">
-                        <input type="text" class="form-control" name="diagnostico" placeholder="diagnostico">
-                    </div>
-                </div> <div class="col-md-6">
-                    <h5>TRATAMIENTO:</h5>
-                    <div class="input-group form-group">
-                        <input type="text" class="form-control" name="tratamiento" placeholder="tratamiento">
-                    </div>
-                </div> <div class="col-md-6">
-                    <h5>OBSERVACION:</h5>
-                    <div class="input-group form-group">
-                        <input type="text" class="form-control" name="observacion" placeholder="observacion">
-                    </div>
+              
+                <!-- <div class="form-group">
+                    <label for="exampleFormControlTextarea1">Sintomas del paciente</label>
+                    <textarea class="form-control" name="sintomas" placeholder="sintomas" id="exampleFormControlTextarea1" rows="3"></textarea>
                 </div>
+
+                <div class="form-group">
+                    <label for="exampleFormControlTextarea1">Diagnostico del paciente</label>
+                    <textarea class="form-control" name="diagnostico" placeholder="diagnostico..." id="exampleFormControlTextarea1" rows="3"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="exampleFormControlTextarea1">Tratamiento</label>
+                    <textarea class="form-control" name="tratamiento" placeholder="tratamiento..." id="exampleFormControlTextarea1" rows="3"></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label for="exampleFormControlTextarea1">Observacion</label>
+                    <textarea class="form-control" name="observacion" placeholder="observacion..." id="exampleFormControlTextarea1" rows="3"></textarea>
+                </div> -->
+
+                {{form.sintomas.label}}
+                {{form.sintomas}}
+                {{form.sintomas.errors}}
+                
+                {{form.diagnostico.label}}
+                {{form.diagnostico}}
+                {{form.diagnostico.errors}}
+
+                {{form.tratamiento.label}}
+                {{form.tratamiento}}
+                {{form.tratamiento.errors}}
+
+                {{form.observacion.label}}
+                {{form.observacion}}
+                {{form.observacion.errors}}
 
                 <div class="form-group">
                     <input type="submit" value="Generar" class="btn btn-success">

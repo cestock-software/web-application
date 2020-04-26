@@ -6,6 +6,7 @@ from django.utils import timezone
 from django.urls import reverse
 from django.db.models import Count
 from .models import Atencion_Medica,Detalle_Atencion
+from django.contrib import messages
 # Create your views here.
 
 
@@ -26,46 +27,48 @@ def PaginaPrincipal(request):
     return render(request,"Cestock/PaginaPrincipal.html")
 
 def Prescripcion(request, pk=None):
-    obj = Atencion_Medica.objects.filter(id_atencion_medica=pk).first()
-    print('--------------------------')
-    print(obj.id_atencion_medica)
+    obj = Atencion_Medica.objects.filter(id=pk).first()
     if request.method == "POST":
-        print('--------------------------------preinscripcion')
         formP = FormPrescripcion(request.POST)
-
         if formP.is_valid():
-           # post = form.save(commit=False)
             presc=formP.save()
-            presc.id_atencion_medica = obj
+            presc.id = obj.id
             presc.save()
             print(formP)
             return redirect('Cestock:PaginaPrincipal')
         else:
             print('form.errors_preinscripcion')
             print(formP.errors)
-    formP = FormPrescripcion()
-    print(request.POST)
+    else:
+        formP = FormPrescripcion()
     return render(request,'Cestock/Prescripcion.html',{'formP':formP, 'pk': obj})
 
 def AtencionMedica(request):
     if request.method == "POST":
-        print('-------------------------------atencion medica')
-
-
         form = FormAtencion(request.POST)
-
-        if form.is_valid():
-            post = form.save(commit=False)
-            post.fecha_hora_atencion_medica= timezone.now()
-            atencion = form.save()
-            #question = Atencion_Medica.objects.get(id_atencion_medica=post.id_atencion_medica)
-            #return redirect('Prescripcion',pk=post.id_atencion_medica)
-            print('es valido')
-            return redirect(reverse('Cestock:Prescripcion', kwargs={'pk': atencion.id_atencion_medica}))
+        formP = FormPrescripcion(request.POST)
+        if form.is_valid() and formP.is_valid():
+            atencionmedica = form.save()
+            atencionmedica.fecha_atencion_medica= timezone.now()
+            atencionmedica.save()
+            print(atencionmedica)
+            messages.add_message(request, messages.SUCCESS, 'se ha creado con exito', extra_tags='Evento')
+            presc=formP.save()
+            presc.save()
+            print(presc)
+            if atencionmedica:
+                presc.id = atencionmedica.id
+            presc.save()
+            return redirect(reverse('Cestock:PaginaPrincipal'))
         else:
-            print('form.errors_atencion medica')
             print(form.errors)
     else:
+        form = FormAtencion()
+        formP = FormPrescripcion()
 
-        form=FormAtencion()
-    return render(request,'Cestock/AtencionMedica.html', {'form':form, 'id_atencion_medica': None})
+    context = {
+        'form': form,
+        'formP': formP,
+        'id': None
+    }    
+    return render(request,'Cestock/AtencionMedica.html',  context )
