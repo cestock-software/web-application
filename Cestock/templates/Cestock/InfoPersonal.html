@@ -1,43 +1,15 @@
-{% extends 'Cestock/PaginaPrincipal.html' %} 
-{% load static %} 
+<div class="modal-dialog" role="document">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h4 class="modal-title">Información Personal del Paciente</h4>
+    </div>
 
-{% block css %}
-{% endblock css %} 
+    <div class="modal-body">
+      {{form.as_p}}  
+    </div>
 
-{% block titulo %}Detalles del Paciente{% endblock titulo %} 
-
-{% block Pagina %}
-<div class="container">
-  <div class="row tabla-lista">
-    <div class="col text-left">
-      <div class="row">
-        <div class="col-md 10">
-          <h4>Información Personal del Paciente</h4>
-        </div>
-        <div class="col-md-2">
-          <a class="btn btn-info" href="{% url 'ListaPacientes' %}">Atrás</a>
-        </div>
-      </div>
-      <br />
-      <div class="row">
-        <div class="mx-auto col-sm-10">
-          <div class="card">
-            <div class="card-body">
-            
-              {% if paciente.rut_paciente == rut %}
-              <form method="post">
-                {% csrf_token %} 
-                {{form.as_p}}
-              </form>
-              {% elif rut is None %}
-              <h2>El Paciente No Ha Registrado Más Datos.</h2>
-              {% endif %}
-            </div>
-          </div>
-        </div>
-      </div>
-      <br />
+    <div class="modal-footer">
+      <button class="btn btn-info" type="button" data-dismiss="modal">Atrás</button>
     </div>
   </div>
 </div>
-{% endblock Pagina %}
