@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from .models import *
 from .forms import CarnetForm
+from .forms import MedicamentoRecetadoForm
 from .filters import *
 
 # Create your views here.
@@ -51,3 +52,23 @@ def InfoCarnetPaciente(request, rut):
         form = CarnetForm(instance=carnet)
 
     return render(request, 'Cestock/InfoCarnet.html', {'form': form})
+
+def ListaRecetas(request):
+    recetas = Receta_Medica.objects.all()
+
+    filtro = RecetaFilter(request.GET, queryset=recetas)
+    recetas = filtro.qs
+
+    context = {'recetas': recetas, 'filtro': filtro}
+
+    return render(request, "Cestock/ListaRecetas.html", context)
+
+
+def InfoMedicamentoRecetado(request, id_med):
+    med_recetado = Medicamento_Recetado.objects.get(id_receta_medica=id_med)
+
+    if request.method == 'GET':
+        form = MedicamentoRecetadoForm(instance=med_recetado)
+
+    return render(request, 'Cestock/InfoMedicamentoRecetado.html', {'form': form})
+

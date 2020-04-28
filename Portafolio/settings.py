@@ -80,11 +80,12 @@ WSGI_APPLICATION = 'Portafolio.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.oracle',
-        'NAME': 'xe',
-        'USER': 'CESFAM',
-        'PASSWORD': 'CESFAM',
-        'HOST': 'localhost',
-        'PORT': '1521',
+        'NAME': (
+        '(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=localhost)(PORT=1521))'
+        '(CONNECT_DATA=(SERVICE_NAME=xepdb1)))'),
+        'USER': 'CESTOCK',
+        'PASSWORD': '123',
+        
     }
 }
 

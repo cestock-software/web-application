@@ -12,3 +12,7 @@ class PacienteFilter(django_filters.FilterSet):
         model = Paciente
         fields = {'rut_paciente': ['icontains']}
 
+class RecetaFilter(django_filters.FilterSet):
+    class Meta:
+        model = Receta_Medica
+        fields = {'id_receta_medica' : ['icontains']}
