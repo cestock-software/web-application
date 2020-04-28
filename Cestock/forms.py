@@ -23,11 +23,10 @@ class FormAtencion(forms.ModelForm):
                 'required': True,
                 
             }), 
-            'nro_ficha': forms.TextInput(attrs={
+            'nro_ficha': forms.Select(attrs={
                 'class': 'form-control responsive',
                 'placeholder': 'Ingrese Numero de Ficha',
-                'required': True, 
-                
+                'required': True,
             }),
         }
 

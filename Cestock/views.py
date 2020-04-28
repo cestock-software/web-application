@@ -26,22 +26,22 @@ def index(request):
 def PaginaPrincipal(request):
     return render(request,"Cestock/PaginaPrincipal.html")
 
-def Prescripcion(request, pk=None):
-    obj = Atencion_Medica.objects.filter(id=pk).first()
-    if request.method == "POST":
-        formP = FormPrescripcion(request.POST)
-        if formP.is_valid():
-            presc=formP.save()
-            presc.id = obj.id
-            presc.save()
-            print(formP)
-            return redirect('Cestock:PaginaPrincipal')
-        else:
-            print('form.errors_preinscripcion')
-            print(formP.errors)
-    else:
-        formP = FormPrescripcion()
-    return render(request,'Cestock/Prescripcion.html',{'formP':formP, 'pk': obj})
+# def Prescripcion(request, pk=None):
+#     obj = Atencion_Medica.objects.filter(id=pk).first()
+#     if request.method == "POST":
+#         formP = FormPrescripcion(request.POST)
+#         if formP.is_valid():
+#             presc=formP.save()
+#             presc.id = obj.id
+#             presc.save()
+#             print(formP)
+#             return redirect('Cestock:PaginaPrincipal')
+#         else:
+#             print('form.errors_preinscripcion')
+#             print(formP.errors)
+#     else:
+#         formP = FormPrescripcion()
+#     return render(request,'Cestock/Prescripcion.html',{'formP':formP, 'pk': obj})
 
 def AtencionMedica(request):
     if request.method == "POST":
@@ -54,21 +54,22 @@ def AtencionMedica(request):
             print(atencionmedica)
             messages.add_message(request, messages.SUCCESS, 'se ha creado con exito', extra_tags='Evento')
             presc=formP.save()
+            # presc.save()
+            # print(presc)
+            # if atencionmedica:
+            presc.atencion_medica_id = atencionmedica.id
             presc.save()
-            print(presc)
-            if atencionmedica:
-                presc.id = atencionmedica.id
-            presc.save()
-            return redirect(reverse('Cestock:PaginaPrincipal'))
+            return redirect(('Cestock:PaginaPrincipal'))
+            boton()
         else:
             print(form.errors)
-    else:
-        form = FormAtencion()
-        formP = FormPrescripcion()
+    
+    form = FormAtencion()
+    formP = FormPrescripcion()
 
     context = {
         'form': form,
         'formP': formP,
-        'id': None
+        
     }    
     return render(request,'Cestock/AtencionMedica.html',  context )

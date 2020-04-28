@@ -7,5 +7,5 @@ urlpatterns = [
     path('', views.index, name='login'),
     path('PaginaPrincipal/', views.PaginaPrincipal, name='PaginaPrincipal'),
     path('atencion-medica/', views.AtencionMedica, name='AtencionMedica'),
-    path('prescripcion/<int:pk>/', views.Prescripcion, name='Prescripcion'),
+    # path('prescripcion/<int:pk>/', views.Prescripcion, name='Prescripcion'),
 ]

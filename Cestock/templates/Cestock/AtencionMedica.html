@@ -9,7 +9,6 @@
         color: rgb(252, 2, 2);
       }  
     </style>
-    
     {% endblock css %}
     {% block titulo %}Atencion{% endblock titulo %}
 
@@ -46,12 +45,10 @@
                     
                     {{form.nro_ficha.label}}
                     {{form.nro_ficha}}
-                    {% if form.nro_ficha.errors %}
-                        
+                    {% if form.nro_ficha.errors %} 
                         {% for error in form.nro_ficha.errors %}
-                            <p class="rojo">*error cl*</p>
-                        {% endfor %}
-                     
+                            <h1 class="rojo">*error cl*</h1>
+                        {% endfor %} 
                     {% endif %}
 
                     
@@ -96,17 +93,15 @@
                     </div>
                 <br>
                 <div class="form-group">
-                    <input type="submit" value="Iniciar Atencion" class="btn btn-success">
-                    {% if atencion_medica %}
+                    <input type="submit" value="Iniciar Atencion"  onclick="boton()" class="btn btn-success">
+                    <!-- {% if atencion_medica %}
                         <a href="{% url 'Cestock:Prescripcion' ID %}" class="gray-link modal-trigger"></a>
-                    {% endif %}
-
-                </div>
+                    {% endif %} -->
+                </div>               
             </form>
         </div>
     </div>
 
-    
 
 {% endblock Pagina %}
 
