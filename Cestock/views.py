@@ -52,7 +52,7 @@ def AtencionMedica(request):
             atencionmedica.fecha_atencion_medica= timezone.now()
             atencionmedica.save()
             print(atencionmedica)
-            messages.add_message(request, messages.SUCCESS, 'se ha creado con exito', extra_tags='Evento')
+            messages.add_message(request, messages.SUCCESS, 'se ha creado con exito', extra_tags='Atencion Medica')
             presc=formP.save()
             # presc.save()
             # print(presc)

@@ -93,7 +93,7 @@
                     </div>
                 <br>
                 <div class="form-group">
-                    <input type="submit" value="Iniciar Atencion"  onclick="boton()" class="btn btn-success">
+                    <input type="submit" value="Crear Atencion" class="btn btn-success">
                     <!-- {% if atencion_medica %}
                         <a href="{% url 'Cestock:Prescripcion' ID %}" class="gray-link modal-trigger"></a>
                     {% endif %} -->
@@ -105,3 +105,44 @@
 
 {% endblock Pagina %}
 
+{% block js %}
+
+<script type="text/javascript">
+    var validated = false;
+      $('#formLog').submit(function(e) {
+        if(validated)
+          return true;
+
+          e.preventDefault();
+          if($('#id_nro_ficha').val() == '' && $('#id_sintomas').val() == '' && $('#id_diagnostico').val() == ''  && $('#id_tratamiento').val() == '' )
+          {
+            console.log('NO TIENE LOS DATOS')
+          }
+          else{
+            console.log('TIENE LOS DATOS');
+            Swal.fire({
+              title: '¡Atención medica!',
+              type: 'success',
+              text: 'quiere crear atencion medica.',
+              showCloseButton: true,
+              showCancelButton: true,
+              confirmButtonText:'Confirmar',
+              confirmButtonAriaLabel: 'Confirmar',
+              cancelButtonText:'Cancelar',
+              cancelButtonAriaLabel: 'Cancelar',
+            }).then(function(result){
+               // function when confirm button clicked
+                if(result.value){
+                  console.log('good');
+                  validated = true;
+                  $('#formLog').submit();
+                }else if(result.dismiss == 'cancel'){
+                   console.log('cancel');
+                }
+            })
+
+          }
+          return false;
+      });
+  </script>
+{% endblock js %}

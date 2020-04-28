@@ -72,30 +72,23 @@
       <script src="{% static 'alert/codigo.js' %}"></script> 
   
       <script>
-          var messagesList = {{messages}}
-
-          $.each(messagesList, function (index, message) {
-            var coords = getCoords(
-              console.log(message['level'])
-            );
-          });
-          {% if messages %}
-            
+         {% if messages %}
             {% for message in messages %}
-              console.log(messages)
-              {% if message.level == '25' %}
-                alert('holadsasdasd');
-                  swal({
-                    {% if message.extra_tags %}
-                      alert('hola');
-                      title: "{{ message.extra_tags }}",
-                    {% endif %}
-                      text: "{{ message }}",
-                      type: 'success',
-                  });
-              {% endif %}
-            {% endfor %}
-          {% endif %}
+                  {% if message.level == 25 %}
+                     Swal.fire({
+                            {% if message.extra_tags %}
+                                title: "{{ message.extra_tags }}",
+                            {% endif %}
+                            text: "{{ message }}",
+                            type: 'success',
+                      });
+                  {% endif %}
+          {% endfor %}
+        {% endif %}
       </script>
+
+{% block js %}
+
+{% endblock js %}
 </body>
 </html>
