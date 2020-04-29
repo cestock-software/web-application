@@ -1,12 +1,13 @@
 from django.shortcuts import render,redirect
 from django.http import HttpResponse
 from django.contrib.auth import authenticate,login
-from .forms import FormUsuarios,FormAtencion,FormPrescripcion
+from .forms import FormUsuarios,FormAtencion,FormPrescripcion,CarnetForm, PacienteForm
 from django.utils import timezone
 from django.urls import reverse
 from django.db.models import Count
-from .models import Atencion_Medica,Detalle_Atencion
+from .models import *
 from django.contrib import messages
+from .filters import *
 # Create your views here.
 
 
@@ -73,3 +74,45 @@ def AtencionMedica(request):
         
     }    
     return render(request,'Cestock/AtencionMedica.html',  context )
+
+#-----------------------views Nico--------------------
+def ListaPacientes(request):
+    pacientes = Paciente.objects.all()
+
+    filtro = PacienteFilter(request.GET, queryset=pacientes)
+    pacientes = filtro.qs
+
+    context = {'pacientes': pacientes, 'filtro': filtro}
+
+    return render(request, "Cestock/ListaPacientes.html", context)
+
+
+def StockMedicamento(request):
+    medicamentos = Medicamento.objects.all()
+
+    filtro = MedicamentoFilter(request.GET, queryset=medicamentos)
+    medicamentos = filtro.qs
+
+    context = { 
+        'medicamentos': medicamentos,
+        'filtro': filtro
+    }
+
+    return render(request, "Cestock/StockMedicamento.html", context)
+
+def InfoPersonalPaciente(request, rut):
+    paciente = Paciente.objects.get(rut_paciente=rut)
+
+    if request.method == 'GET':
+        form = PacienteForm(instance=paciente)
+    
+    return render(request, 'Cestock/InfoPersonal.html', {'form': form})
+
+
+def InfoCarnetPaciente(request, rut):
+    carnet = Carnet_Paciente.objects.get(rut_paciente=rut)
+
+    if request.method == 'GET':
+        form = CarnetForm(instance=carnet)
+
+    return render(request, 'Cestock/InfoCarnet.html', {'form': form})

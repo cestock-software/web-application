@@ -38,7 +38,7 @@
 
                     {{form.nombre_medico.label}}
                         {% if user.is_authenticated %}
-                            <input type="text" class="form-control" name="nombre_medico" value="{{ user.username }}">     
+                            <input type="text" class="form-control" id="nombre" name="nombre_medico" disabled="true" value="{{ user.username }}">     
                         {% endif %}
                     {{form.nombre_medico.errors}}
 
@@ -133,9 +133,10 @@
             }).then(function(result){
                // function when confirm button clicked
                 if(result.value){
-                  console.log('good');
-                  validated = true;
-                  $('#formLog').submit();
+                    console.log('good');
+                    validated = true;        
+                    $('#nombre').prop( "disabled", false );
+                    $('#formLog').submit();
                 }else if(result.dismiss == 'cancel'){
                    console.log('cancel');
                 }

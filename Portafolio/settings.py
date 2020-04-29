@@ -40,7 +40,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    
+    'crispy_forms',
+    'django_filters',
 ]
 
 AUTH_USER_MODEL = 'users.UserMedico'
@@ -136,3 +137,5 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 
+#Crispy Template
+CRISPY_TEMPLATE_PACK='bootstrap4'
