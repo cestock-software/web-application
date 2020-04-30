@@ -1,7 +1,7 @@
 from django.shortcuts import render,redirect
 from django.http import HttpResponse
 from django.contrib.auth import authenticate,login
-from .forms import FormUsuarios,FormAtencion,FormPrescripcion,CarnetForm, PacienteForm
+from .forms import *
 from django.utils import timezone
 from django.urls import reverse
 from django.db.models import Count
@@ -116,3 +116,24 @@ def InfoCarnetPaciente(request, rut):
         form = CarnetForm(instance=carnet)
 
     return render(request, 'Cestock/InfoCarnet.html', {'form': form})
+
+
+
+def ListaRecetas(request):
+    recetas = Receta_Medica.objects.all()
+
+    filtro = RecetaFilter(request.GET, queryset=recetas)
+    recetas = filtro.qs
+
+    context = {'recetas': recetas, 'filtro': filtro}
+
+    return render(request, "Cestock/ListaRecetas.html", context)
+
+
+def InfoMedicamentoRecetado(request, id_med):
+    med_recetado = Medicamento_Recetado.objects.get(id_receta_medica=id_med)
+
+    if request.method == 'GET':
+        form = MedicamentoRecetadoForm(instance=med_recetado)
+
+    return render(request, 'Cestock/InfoMedicamentoRecetado.html', {'form': form})

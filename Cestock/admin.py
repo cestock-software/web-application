@@ -47,7 +47,8 @@ class ListaPaciente(admin.ModelAdmin):
     list_display = ['rut_paciente', 'nombre', 'ap_paterno', 'ap_materno', 'direccion', 'email', 'nro_celular', 'fecha_nacimiento', 'sexo', 'comuna', 'nombre_familiar', 'email_familiar']
 
 class ListaRecetaMedica(admin.ModelAdmin):
-    list_display = ['id_receta']
+    list_display = ['id_receta_medica']
+    # list_display = ['id_receta_medica', 'id_atencion_medica']
 
 class ListaReposicion(admin.ModelAdmin):
     list_display = ['id_reposicion', 'id_medicamento', 'cantidad_repuesta', 'fecha_reposicion', 'fecha_vencimiento', 'nombre_farmaceutico']

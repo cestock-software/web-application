@@ -185,7 +185,7 @@ class Paciente(models.Model):
         return f'{self.rut_paciente}' 
 
 class Receta_Medica(models.Model):
-    id_receta = models.IntegerField(primary_key=True)
+    id_receta_medica = models.IntegerField(primary_key=True)
     atencion_medica = models.ForeignKey('Atencion_Medica',null=True,on_delete=models.CASCADE)
 
     class Meta:
@@ -194,7 +194,7 @@ class Receta_Medica(models.Model):
         verbose_name_plural = 'Recetas Médicas'
 
     def __str__(self):
-        return f'{self.id_receta}' 
+        return f'{self.id_recid_receta_medicaeta}' 
 
 class Reposicion(models.Model):
     id_reposicion = models.IntegerField(primary_key=True)
@@ -257,3 +257,41 @@ class Usuario(models.Model):
 
     def __str__(self):
         return f'{self.id_usuario}' 
+
+
+class tipo_retiro(models.Model):
+    id_tipo_retiro = models.IntegerField(primary_key=True)
+    descripcion_retiro = models.CharField(default="",max_length=255, blank=True, null=True)
+
+    class Meta:
+        db_table = 'tipo_retiro'
+        verbose_name = 'tipo_retiro'
+        verbose_name_plural = 'tipo_retiro'
+
+    def __str__(self):
+        return f'{self.id_tipo_retiro}' 
+
+class retiro_medicamento(models.Model):
+    id_retiro = models.IntegerField(primary_key=True)
+    id_medicamento = models.IntegerField(default=0, blank=True, null=True)
+    id_tipo_retiro = models.IntegerField(default=0, blank=True, null=True)
+    cantidad_retirada = models.IntegerField(default=0, blank=True, null=True)
+    fecha_retiro = models.DateField(auto_now=True,blank=True, null=True)
+    class Meta:
+        db_table = 'retiro_medicamento'
+        verbose_name = 'retiro_medicamento'
+        verbose_name_plural = 'retiro_medicamento'
+
+    def __str__(self):
+        return f'{self.id_retiro}' 
+
+
+# CREATE TABLE retiro_medicamento (
+#     id_retiro          NUMBER(5) NOT NULL,
+#     id_medicamento     NUMBER(5) NOT NULL,
+#     id_tipo_retiro     NUMBER(5) NOT NULL,
+#     cantidad_retirada  NUMBER(10) NOT NULL,
+#     fecha_retiro       DATE NOT NULL
+# );
+
+# ALTER TABLE retiro_medicamento ADD CONSTRAINT retiro_medicamento_pk PRIMARY KEY ( id_retiro );
