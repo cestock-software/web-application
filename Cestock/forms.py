@@ -4,7 +4,6 @@ from django.contrib.auth import get_user_model
 from users.models import *
 
 User = get_user_model()
-
 class FormUsuarios(forms.ModelForm):
     class Meta:
         model=UserMedico
@@ -16,18 +15,20 @@ class FormAtencion(forms.ModelForm):
         fields = (
             'nro_ficha', 'nombre_medico'
         )
+        labels = {
+            'nombre_medico': ('Nombre médico'),
+            'nro_ficha': ('Número de ficha'),
+        }
         widgets = {
             'nombre_medico': forms.TextInput(attrs={
                 'class': 'form-control responsive',
-                'placeholder': 'Ingrese Nombre de Medico',
+                'placeholder': 'Ingrese Nombre de Médico',
                 'required': True,
-                'readonly': True,
-                'disable':True
-                
-            }), 
+
+            }),
             'nro_ficha': forms.Select(attrs={
                 'class': 'form-control responsive',
-                'placeholder': 'Ingrese Numero de Ficha',
+                'placeholder': 'Ingrese Número de Ficha',
                 'required': True,
             }),
         }
@@ -41,7 +42,7 @@ class FormAtencion(forms.ModelForm):
     #             raise ValidationError('Lo sentimos, pero esta ficha no existe')
     #         else:
     #             return nro_ficha
-       
+
 
 class FormPrescripcion(forms.ModelForm):
     class Meta:
@@ -49,6 +50,12 @@ class FormPrescripcion(forms.ModelForm):
         fields = (
             'sintomas', 'diagnostico','tratamiento','observacion'
         )
+        labels = {
+            'sintomas': ('Síntomas'),
+            'diagnostico': ('Diagnóstico'),
+            'tratamiento': ('Tratamiento'),
+            'observacion': ('Observación'),
+        }
 
         widgets = {
             'sintomas': forms.Textarea(attrs={
