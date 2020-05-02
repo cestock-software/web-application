@@ -36,13 +36,13 @@
               <a class="nav-link" href="{% url 'Cestock:ListaPacientes' %}">Pacientes</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="{% url 'Cestock:ListaRecetas' %}">Recetas Medicas</a>
+              <a class="nav-link" href="{% url 'Cestock:ListaRecetas' %}">Lista de Recetas Medicas</a>
             </li>
              <li class="nav-item">
               <a class="nav-link" href="{% url 'Cestock:StockMedicamento' %}">Stock Medicamentos</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="{% url 'Cestock:AtencionMedica' %}">Atenciones</a> 
+              <a class="nav-link" href="{% url 'Cestock:AtencionMedica' %}">Atencion Medica</a> 
             </li>
           </ul>
 
@@ -67,8 +67,105 @@
 
 
       {% block Pagina %}
+      <style type="text/css">
+        .con_white{
+           background-color: #fefefe;
+         }
+       .highcharts-figure, .highcharts-data-table table {
+         min-width: 310px;
+         max-width: 800px;
+         margin: 1em auto;
+         }
 
+         #container {
+             height: 400px;
+         }
+
+         .highcharts-data-table table {
+           font-family: Verdana, sans-serif;
+           border-collapse: collapse;
+           border: 1px solid #EBEBEB;
+           margin: 10px auto;
+           text-align: center;
+           width: 100%;
+           max-width: 500px;
+         }
+         .highcharts-data-table caption {
+             padding: 1em 0;
+             font-size: 1.2em;
+             color: #555;
+         }
+         .highcharts-data-table th {
+           font-weight: 600;
+             padding: 0.5em;
+         }
+         .highcharts-data-table td, .highcharts-data-table th, .highcharts-data-table caption {
+             padding: 0.5em;
+         }
+         .highcharts-data-table thead tr, .highcharts-data-table tr:nth-child(even) {
+             background: #f8f8f8;
+         }
+         .highcharts-data-table tr:hover {
+             background: #f1f7ff;
+         }
+
+     </style>
+     <section  class="order-form my-4 mx-4">
+       <div class="container con_white pt-4 rounded-lg" >
+           <div class="row">
+
+               <div class="col-12">
+                 <h3>Atenciones médicas realizadas</h3>
+                 <span>Atenciones medicas realizadas en la presente semana</span>
+                 <hr class="mt-1">
+               </div>
+               <div class="col-12">
+                   <div class="col-md">
+                      <div class="row mx-4">
+                           <div class="col-12 col-sm-6">
+                               <h4>Últimas atenciones médicas</h4>
+                                 <hr class="mt-1">
+                               {% if ultimas_atenciones_medicas %}
+                                 <ul class="list-group">
+                                 {% for atencion in ultimas_atenciones_medicas %}
+                                       <li class="list-group-item ">
+                                         <div class="md-v-line"></div> Atención médica N°{{atencion.id}}, Ficha N°{{atencion.nro_ficha}}, Doctor {{atencion.nombre_medico}}
+                                         <br><small>{{atencion.fecha_atencion_medica}} </small>
+                                       </li>
+                                 {% endfor %}
+                                 </ul>
+                               {% else %}
+                                 No se registran atenciones médicas
+                               {% endif %}
+                           </div>
+                           <div class="col-12 col-sm-6">
+                             <figure class="highcharts-figure">
+                                 <!--El grafico va en este contenedor-->
+                                 <div id="container"></div>
+                             </figure>
+                           </div>
+                       </div>
+                   </div>
+               </div>
+           </div>
+         <br>
+       </div>
+     </section>
       {% endblock Pagina %}
+
+          <!-- Footer -->
+          <footer class="page-footer font-small" style="background-color: #17a2b8!important; ">
+            <div class="container">
+              <div class="row">
+              </div>
+            </div>
+            <div class="footer-copyright text-center py-3">© 2020 Copyright:
+              <a style="color: white" href="#"> Cestock.com</a>
+            </div>
+    
+          </footer>
+          <!-- Footer -->
+    
 
       <script src="{% static 'js/bootstrap.min.js' %}"></script> 
       <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
@@ -77,9 +174,14 @@
       <!--    Plugin sweet Alert 2  -->
       <script src="{% static 'alert/sweetalert2.all.min.js' %}"></script>
         
-      <script src="{% static 'alert/codigo.js' %}"></script> 
+      <script src="{% static 'alert/codigo.js' %}"></script>
+      <script src="{% static 'listapacientes/modal.js' %}"></script> 
   
       <script src="{% static 'js/main/main.js' %}"></script>
+      <script src="https://code.highcharts.com/highcharts.js"></script>
+      <script src="https://code.highcharts.com/modules/exporting.js"></script>
+      <script src="https://code.highcharts.com/modules/export-data.js"></script>
+      <script src="https://code.highcharts.com/modules/accessibility.js"></script>
 
       <script>
          {% if messages %}
@@ -98,7 +200,95 @@
       </script>
 
 {% block js %}
+<script type="text/javascript">
 
+  $(document).ready(function(){
+      // Grafico de barras
+      var days =  []
+      var atenciones_cant_data = []
+
+      var days = [
+          {% for item in atenciones_medicas_data %}
+              '{{item.fecha}}',
+          {% endfor %}
+      ]
+
+      var atenciones_cant_data = [
+          {% for item in atenciones_medicas_data %}
+              {{item.total_cant_atenciones}},
+          {% endfor %}
+      ]
+      var year = '{{year}}'
+      changeChart(days, year, atenciones_cant_data);
+  })
+  function changeChart(days, year, atenciones_cant_data){
+
+      Highcharts.chart('container', {
+        chart: {
+            type: 'column'
+        },
+        title: {
+            text: 'Flujo de la semana'
+        },
+        subtitle: {
+            text: 'Atenciones médicas realizadas'
+        },
+        xAxis: {
+            categories: days,
+            crosshair: true
+        },
+        yAxis: {
+            tickInterval: 1,
+            min: 0,
+            title: {
+                text: 'Cantidad de atenciones'
+            }
+        },
+        exporting: {
+            buttons: {
+                contextButton: {
+                    menuItems: ["viewFullscreen", "downloadCSV", "downloadPDF", "separator", "downloadPNG", "downloadJPEG"],
+                    y: -10
+                }
+            }
+        },
+        lang: {
+            printChart: 'Print chart',
+            downloadCSV: 'Descargar CSV',
+            downloadPNG: 'Descargar PNG',
+            downloadJPEG: 'Descargar JPEG',
+            downloadPDF: 'Descargar PDF',
+            contextButtonTitle: 'Menú de exportación',
+            viewFullscreen: 'Pantalla completa'
+        },
+
+        credits: {
+            enabled: false
+        },
+        tooltip: {
+            headerFormat: '<span style="font-size:10px">{point.x}' + year + '</span><table>',
+            pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                '<td style="padding:0"><b> {point.y}</b></td></tr>',
+            footerFormat: '</table>',
+            shared: true,
+            useHTML: true
+        },
+        plotOptions: {
+            column: {
+                pointPadding: 0.2,
+                borderWidth: 0
+            }
+        },
+
+        series: [{
+              name: 'Total de atenciones médicas',
+              type: 'column',
+              yAxis: 0,
+              data: atenciones_cant_data,
+          }]
+      });
+  }
+  </script>
 {% endblock js %}
 </body>
 </html>

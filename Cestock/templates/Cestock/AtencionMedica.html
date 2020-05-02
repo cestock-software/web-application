@@ -61,7 +61,7 @@
                               <span class="input-group-text" id="basic-addon1"><i class="fas fa-user-md"></i></span>
                             </div>
                               {% if user.is_authenticated %}
-                                  <input type="text" class="form-control" name="nombre_medico" disabled ="true" id="nombre" alue="{{ user.username }}">
+                                  <input type="text" class="form-control" name="nombre_medico" disabled ="true" id="nombre" Value="{{ user.username }}">
                               {% endif %}
                           </div>
                           {{form.nombre_medico.errors}}

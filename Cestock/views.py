@@ -8,6 +8,8 @@ from django.db.models import Count
 from .models import *
 from django.contrib import messages
 from .filters import *
+import datetime
+import locale
 # Create your views here.
 
 
@@ -25,7 +27,41 @@ def index(request):
         return render(request,"Cestock/login.html")
 
 def PaginaPrincipal(request):
-    return render(request,"Cestock/PaginaPrincipal.html")
+    # Para que te tome el tiempo local
+    locale.setlocale(locale.LC_TIME, '')
+
+    atenciones_medicas_data = []
+    dia_actual = datetime.datetime.now()
+    # 0 es lunes y 6 es domingo
+    numero_dia_en_semana = datetime.datetime.weekday(dia_actual)
+    # el lunes es el dia actual menos en numero de este en la semana, el domingo es el primero mas 6
+    primer_dia_semana = dia_actual - datetime.timedelta(days=numero_dia_en_semana)
+    ultimo_dia_semana = primer_dia_semana + datetime.timedelta(days=6)
+    d = datetime.timedelta(days=1)
+
+    # Recorres del primer dia a el ultimo contado las atenciones medicas de ese dia
+    while primer_dia_semana <= ultimo_dia_semana:
+        atenciones_medicas_dia = Atencion_Medica.objects.filter(fecha_atencion_medica__day=primer_dia_semana.day, fecha_atencion_medica__month=primer_dia_semana.month, fecha_atencion_medica__year=primer_dia_semana.year)
+        # Cambio el formato de la fecha %d es dia en número , %b es mes de manera corta
+        date_text = str(primer_dia_semana.strftime("%d %b. "))
+
+        # total(cantidad) de atenciones en ese dia, fecha seleccionada
+        info = {}
+        info['fecha'] = date_text
+        info['total_cant_atenciones'] = len(atenciones_medicas_dia)
+
+        atenciones_medicas_data.append(info)
+        primer_dia_semana += d
+    print(atenciones_medicas_data)
+    ultimas_atenciones_medicas = Atencion_Medica.objects.order_by('-id')[:4]
+    context = {
+        'ultimas_atenciones_medicas': ultimas_atenciones_medicas,
+        'atenciones_medicas_data': atenciones_medicas_data,
+        'year': dia_actual.year
+
+    }
+
+    return render(request, "Cestock/PaginaPrincipal.html", context)
 
 # def Prescripcion(request, pk=None):
 #     obj = Atencion_Medica.objects.filter(id=pk).first()
