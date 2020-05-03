@@ -2,12 +2,36 @@ from django import forms
 from .models import *
 from django.contrib.auth import get_user_model
 from users.models import *
+from django.contrib.auth.forms import AuthenticationForm,ReadOnlyPasswordHashField
+from django.contrib.admin.forms import AdminPasswordChangeForm
+
 
 User = get_user_model()
 class FormUsuarios(forms.ModelForm):
     class Meta:
         model=UserMedico
         fields=['username','password']
+
+class LoginForm(AuthenticationForm):
+    ''' Formulario para el login '''
+    username = forms.CharField(
+        widget=forms.TextInput(attrs={
+            'autofocus': True,
+            'placeholder': 'Email',
+            'class': 'form-control mb-4'
+        })
+    )
+    password = forms.CharField(
+        label=("Password"),
+        strip=False,
+        widget=forms.PasswordInput(attrs={
+            'placeholder': 'Contraseña',
+            'class': 'form-control mb-4 '
+        }),
+    )
+
+    class Meta:
+        model = UserMedico
 
 class FormAtencion(forms.ModelForm):
     class Meta:

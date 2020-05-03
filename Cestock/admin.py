@@ -2,16 +2,20 @@ from django.contrib import admin
 from .models import *
 from django.conf import settings
 from users.models import UserMedico
+from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
+from users.forms import UserChangeForm
 
-# from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
-# # Register your models here.
-# class UserAdmmin(BaseUserAdmin):
-#     add_form = FormUsuarios
-#     list_display = ('username', 'email', 'is_superuser','is_active')
-#     fieldsets=(
-#         (None, {'fields':('username','email', 'password','rut_medico')}),
-#         ('Permissions', {'fields':('is_active','is_superuser','is_staff')})
-#     )
+# Register your models here.
+class UserAdminView(BaseUserAdmin):
+    # change_password_form = MyAdminPasswordChangeForm
+    form = UserChangeForm
+
+    list_display = ('username', 'email', 'rut_medico', 'is_superuser', 'is_active')
+    fieldsets = (
+        (None, {'fields': ('username', 'email', 'password', 'rut_medico')}),
+        ('Permissions', {'fields': ('is_active', 'is_superuser', 'is_staff')})
+    )
+
 class ListaAtencion(admin.ModelAdmin):
     list_display = ['nro_ficha', 'fecha_atencion_medica', 'nombre_medico', 'fecha_prox_atencion']
 
@@ -61,8 +65,7 @@ class ListaTipoInforme(admin.ModelAdmin):
 class ListaUsuario(admin.ModelAdmin):
     list_display = ['id_usuario', 'rut_usuario', 'contrasena', 'tipo_usuario', 'nivel_usuario', 'nombre_completo']
 
-
-admin.site.register(UserMedico)
+admin.site.register(UserMedico, UserAdminView)
 admin.site.register(Atencion_Medica, ListaAtencion)
 admin.site.register(Carnet_Paciente, ListaCarnet)
 admin.site.register(Detalle_Atencion, ListaDetalleAtencion)

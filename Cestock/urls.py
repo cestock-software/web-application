@@ -5,8 +5,11 @@ app_name = 'Cestock'
 
 urlpatterns = [
     path('', views.index, name='login'),
+    path('logout/', views.logout, name="logout"),
+
     path('PaginaPrincipal/', views.PaginaPrincipal, name='PaginaPrincipal'),
-    path('atencion-medica/', views.AtencionMedica, name='AtencionMedica'),
+    path('atencion-medica/', views.crearAtencionMedica, name='AtencionMedica'),
+    path('atencion-medica/detalle/', views.get_atencion_detalle, name='atencion-detalle'),
     # path('prescripcion/<int:pk>/', views.Prescripcion, name='Prescripcion'),
     path('lista-pacientes/', views.ListaPacientes, name='ListaPacientes'),
     path('info-carnet/<str:rut>', views.InfoCarnetPaciente, name='InfoCarnetPaciente'),

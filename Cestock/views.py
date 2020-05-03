@@ -1,6 +1,8 @@
 from django.shortcuts import render,redirect
-from django.http import HttpResponse
+from django.http import HttpResponse,HttpResponseRedirect
+from django.contrib import auth
 from django.contrib.auth import authenticate,login
+from django.http import JsonResponse
 from .forms import *
 from django.utils import timezone
 from django.urls import reverse
@@ -13,18 +15,67 @@ import locale
 # Create your views here.
 
 
+# def index(request):
+#     if request.method =="POST":
+#         username=request.POST['username']   
+#         password=request.POST['password']     
+#         user=authenticate(username=username,password=password) 
+#         if user is not None:
+#             login(request,user)
+#             return redirect('Cestock:PaginaPrincipal')     
+#         else:
+#             return render(request,"Cestock/login.html") 
+#     else:
+#         return render(request,"Cestock/login.html")
+
+def get_atencion_detalle(request):
+    if request.POST:
+        atencion = Atencion_Medica.objects.filter(id=request.POST['id']).first()
+        detalle_atencion = Detalle_Atencion.objects.filter(atencion_medica=atencion).first()
+        ficha = Carnet_Paciente.objects.filter(nro_ficha=int(str(atencion.nro_ficha))).first()
+        date = atencion.fecha_atencion_medica.strftime('%d/%m/%Y')
+        nombre_paciente = ficha.rut_paciente.nombre + ' ' + ficha.rut_paciente.ap_paterno + ' ' + ficha.rut_paciente.ap_materno
+
+        output = {
+            'id': atencion.id,
+            'doctor': atencion.nombre_medico,
+            'ficha': str(atencion.nro_ficha),
+            'fecha': date,
+            'paciente': nombre_paciente,
+            'sintomas': detalle_atencion.sintomas,
+            'diagnostico': detalle_atencion.diagnostico,
+            'tratamiento': detalle_atencion.tratamiento,
+            'observacion': detalle_atencion.observacion,
+        }
+    return JsonResponse(output)
+
 def index(request):
-    if request.method =="POST":
-        username=request.POST['username']   
-        password=request.POST['password']     
-        user=authenticate(username=username,password=password) 
-        if user is not None:
-            login(request,user)
-            return redirect('Cestock:PaginaPrincipal')     
+    ''' Vista para iniciar sesión '''
+    if request.user.is_authenticated:
+        return HttpResponseRedirect(reverse('Cestock:PaginaPrincipal'))
+
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+
+        user = auth.authenticate(username=username, password=password)
+        form = LoginForm(user, request.POST)
+
+        if form.is_valid() and user:
+            auth.login(request=request, user=user)
+
+            return redirect(reverse('Cestock:PaginaPrincipal'))
         else:
-            return render(request,"Cestock/login.html") 
+            print(form.errors)
     else:
-        return render(request,"Cestock/login.html")
+        form = LoginForm()
+    return render(request, 'Cestock/login.html', {'form': form, 'hidden_register': True})
+
+
+def logout(request):
+    auth.logout(request)
+    return redirect(reverse('Cestock:login'))
+
 
 def PaginaPrincipal(request):
     # Para que te tome el tiempo local
@@ -41,7 +92,7 @@ def PaginaPrincipal(request):
 
     # Recorres del primer dia a el ultimo contado las atenciones medicas de ese dia
     while primer_dia_semana <= ultimo_dia_semana:
-        atenciones_medicas_dia = Atencion_Medica.objects.filter(fecha_atencion_medica__day=primer_dia_semana.day, fecha_atencion_medica__month=primer_dia_semana.month, fecha_atencion_medica__year=primer_dia_semana.year)
+        atenciones_medicas_dia = Atencion_Medica.objects.filter(nombre_medico=request.user.username,fecha_atencion_medica__day=primer_dia_semana.day, fecha_atencion_medica__month=primer_dia_semana.month, fecha_atencion_medica__year=primer_dia_semana.year)
         # Cambio el formato de la fecha %d es dia en número , %b es mes de manera corta
         date_text = str(primer_dia_semana.strftime("%d %b. "))
 
@@ -52,8 +103,7 @@ def PaginaPrincipal(request):
 
         atenciones_medicas_data.append(info)
         primer_dia_semana += d
-    print(atenciones_medicas_data)
-    ultimas_atenciones_medicas = Atencion_Medica.objects.order_by('-id')[:4]
+    ultimas_atenciones_medicas = Atencion_Medica.objects.filter(nombre_medico=request.user.username).order_by('-id')[:4]
     context = {
         'ultimas_atenciones_medicas': ultimas_atenciones_medicas,
         'atenciones_medicas_data': atenciones_medicas_data,
@@ -80,7 +130,7 @@ def PaginaPrincipal(request):
 #         formP = FormPrescripcion()
 #     return render(request,'Cestock/Prescripcion.html',{'formP':formP, 'pk': obj})
 
-def AtencionMedica(request):
+def crearAtencionMedica(request):
     if request.method == "POST":
         form = FormAtencion(request.POST)
         formP = FormPrescripcion(request.POST)
@@ -97,7 +147,7 @@ def AtencionMedica(request):
             presc.atencion_medica_id = atencionmedica.id
             presc.save()
             return redirect(('Cestock:PaginaPrincipal'))
-            boton()
+            # boton()
         else:
             print(form.errors)
     

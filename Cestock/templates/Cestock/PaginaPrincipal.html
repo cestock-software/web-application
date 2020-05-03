@@ -19,17 +19,17 @@
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     {% block css %}
     {% endblock css %}
-    
+
     <title> {% block titulo %}Menu{% endblock titulo %}</title>
 </head>
 <body>
-   
+
     <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #17a2b8!important;">
         <a class="navbar-brand" href="{% url 'Cestock:PaginaPrincipal' %}">CESTOCK</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor03" aria-controls="navbarColor03" aria-expanded="true" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
-    
+
         <div class="navbar-collapse collapse" id="navbarColor03" style="background-color: #17a2b8!important;">
           <ul class="navbar-nav mr-auto">
             <li class="nav-item">
@@ -42,23 +42,23 @@
               <a class="nav-link" href="{% url 'Cestock:StockMedicamento' %}">Stock Medicamentos</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="{% url 'Cestock:AtencionMedica' %}">Atencion Medica</a> 
+              <a class="nav-link" href="{% url 'Cestock:AtencionMedica' %}">Atencion Medica</a>
             </li>
           </ul>
 
           <ul class=" navbar-nav navbar-right">
-             
+
             <li class="dropdown nav-item">
-             
+
               {% if user.is_authenticated %}
                 <a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{user.username}}</a>
               {% else %}
                 <a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">User</a>
-              {% endif %}  
+              {% endif %}
               <ul class="dropdown-menu dropdown-menu-right">
                 <li class="nav-item"><a class="nav-link" href="#">Home</a></li>
-                <li role="separator" class="divider"></li>  
-                <li class="nav-item"><a class="nav-link" href="#">Salir</a></li>
+                <li role="separator" class="divider"></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'Cestock:logout' %}">Salir</a></li>
               </ul>
             </li>
           </ul>
@@ -108,6 +108,13 @@
          .highcharts-data-table tr:hover {
              background: #f1f7ff;
          }
+         .footer_position{
+            position:fixed;
+            left:0px;
+            bottom:0px;
+            height:50px;
+            width:100%;
+         }
 
      </style>
      <section  class="order-form my-4 mx-4">
@@ -122,39 +129,131 @@
                <div class="col-12">
                    <div class="col-md">
                       <div class="row mx-4">
-                           <div class="col-12 col-sm-6">
-                               <h4>Últimas atenciones médicas</h4>
-                                 <hr class="mt-1">
-                               {% if ultimas_atenciones_medicas %}
-                                 <ul class="list-group">
-                                 {% for atencion in ultimas_atenciones_medicas %}
-                                       <li class="list-group-item ">
-                                         <div class="md-v-line"></div> Atención médica N°{{atencion.id}}, Ficha N°{{atencion.nro_ficha}}, Doctor {{atencion.nombre_medico}}
-                                         <br><small>{{atencion.fecha_atencion_medica}} </small>
-                                       </li>
-                                 {% endfor %}
-                                 </ul>
-                               {% else %}
-                                 No se registran atenciones médicas
-                               {% endif %}
-                           </div>
-                           <div class="col-12 col-sm-6">
-                             <figure class="highcharts-figure">
-                                 <!--El grafico va en este contenedor-->
-                                 <div id="container"></div>
-                             </figure>
-                           </div>
+                           {% if ultimas_atenciones_medicas %}
+                             <div class="col-12 col-sm-6">
+                                 <h4>Últimas atenciones médicas</h4>
+                                   <hr class="mt-1">
+                                   {% for atencion in ultimas_atenciones_medicas %}
+                                          <a class="list-group-item list-group-item-action" data-toggle="modal" data-target="#modal_atencion" onclick="ver_atencion( {{atencion.id}} )">
+                                             <div class="md-v-line"></div> Atención médica N°{{atencion.id}}, Ficha N°{{atencion.nro_ficha}}, Doctor {{atencion.nombre_medico}}
+                                             <br><small>{{atencion.fecha_atencion_medica}} </small>
+                                         </a >
+                                   {% endfor %}
+                             </div>
+                             <div class="col-12 col-sm-6">
+                               <figure class="highcharts-figure">
+                                   <!--El grafico va en este contenedor-->
+                                   <div id="container"></div>
+                               </figure>
+                             </div>
+                           {% else %}
+                            <div class="col-12 col-sm-6">
+                              <h4>Últimas atenciones médicas</h4>
+                              <hr class="mt-1">
+
+                             No se registran atenciones médicas
+                            </div>
+                           {% endif %}
                        </div>
                    </div>
                </div>
            </div>
          <br>
        </div>
+       <div class="modal fade" id="modal_atencion" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog modal-lg" role="document">
+              <div class="modal-content">
+                  <div class="modal-header">
+                      <!--<h5 class="modal-title font-weight-bold" id="exampleModalLabel">Detalle de la Factura</h5>-->
+                      <h5 class="h5 text-uppercase font-weight-bold mb-0">Atención médica nº <span id="id"></span></h5>
+                      <button class="close close_class" type="button" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">×</span>
+                      </button>
+                  </div>
+                  <div class="modal-body">
+                      <div class="card mb-4">
+                          <div class="card-body p-0">
+                              <table class="table table__with-buttons">
+                                  <thead>
+                                      <tr>
+                                          <th class="w-35">Doctor</th>
+                                          <th class="text-left">Ficha</th>
+                                          <th class="text-left">Fecha</th>
+                                          <th class="text-left">Paciente</th>
+                                      </tr>
+                                  </thead>
+                                  <tbody>
+                                      <tr>
+                                          <td>
+                                              <span id="doctor"></span>
+                                          </td>
+                                          <td class="text-left">
+                                              <span id="ficha"></span>
+                                          </td>
+                                          <td class="text-left">
+                                              <span id="fecha"></span>
+                                          </td>
+                                          <td class="text-left">
+                                              <span id="paciente"></span>
+                                          </td>
+                                      </tr>
+                                  </tbody>
+                              </table>
+                          </div>
+                      </div>
+                      <div class="card mb-0">
+                          <div class="card-header">
+                              <h6 class="h6 font-weight-bold mb-0">
+                                  Detalle
+                              </h6>
+                          </div>
+                          <div class="card-body p-0">
+                              <table class="table header-fixed">
+                                  <tbody><!-- style="overflow: auto; height: 100px" -->
+                                      <!-- OS 1 -->
+                                      <tr>
+                                          <td class="font-weight-bold w-15">Síntomas</td>
+                                          <td class="w-40">
+                                              <p id="sintomas"></p>
+                                          </td>
+                                      </tr>
+                                      <!-- OS 2 -->
+                                      <tr>
+                                          <td class="font-weight-bold w-15">Diagnóstico</td>
+                                          <td class="w-40">
+                                              <p id="diagnostico"></p>
+                                          </td>
+                                      </tr>
+                                      <!-- OS 3 -->
+                                      <tr>
+                                          <td class="font-weight-bold w-15">Tratamiento</td>
+                                          <td class="w-40">
+                                              <p id="tratamiento"></p>
+                                          </td>
+                                      </tr>
+                                      <tr>
+                                          <td class="font-weight-bold w-15">Observación</td>
+                                          <td class="w-40">
+                                              <p id="observacion"></p>
+                                          </td>
+                                      </tr>
+                                  </tbody>
+                              </table>
+                          </div>
+                      </div>
+                  </div>
+                  <div class="modal-footer">
+                      <button class="btn btn-info close_class" type="button" data-dismiss="modal">Atras</button>
+                  </div>
+              </div>
+          </div>
+      </div>
+
      </section>
       {% endblock Pagina %}
 
           <!-- Footer -->
-          <footer class="page-footer font-small" style="background-color: #17a2b8!important; ">
+          <footer class="page-footer footer_position font-small" style="background-color: #17a2b8!important; ">
             <div class="container">
               <div class="row">
               </div>
@@ -162,21 +261,24 @@
             <div class="footer-copyright text-center py-3">© 2020 Copyright:
               <a style="color: white" href="#"> Cestock.com</a>
             </div>
-    
+
           </footer>
           <!-- Footer -->
-    
 
-      <script src="{% static 'js/bootstrap.min.js' %}"></script> 
+      <script src="https://code.jquery.com/jquery-3.5.0.min.js"></script>
+
+      <script src="{% static 'js/bootstrap.min.js' %}"></script>
       <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
-      <script src="{% static 'alert/popper.min.js' %}"></script>	 	 	
-	  
+      <script src="{% static 'alert/popper.min.js' %}"></script>
+         <!-- Compiled and minified JavaScript -->
+
+
       <!--    Plugin sweet Alert 2  -->
       <script src="{% static 'alert/sweetalert2.all.min.js' %}"></script>
-        
+
       <script src="{% static 'alert/codigo.js' %}"></script>
-      <script src="{% static 'listapacientes/modal.js' %}"></script> 
-  
+      <script src="{% static 'listapacientes/modal.js' %}"></script>
+
       <script src="{% static 'js/main/main.js' %}"></script>
       <script src="https://code.highcharts.com/highcharts.js"></script>
       <script src="https://code.highcharts.com/modules/exporting.js"></script>
@@ -203,7 +305,7 @@
 <script type="text/javascript">
 
   $(document).ready(function(){
-      // Grafico de barras
+      // Grafico de barras( dias eje x , cantidad eje y)
       var days =  []
       var atenciones_cant_data = []
 
@@ -220,7 +322,18 @@
       ]
       var year = '{{year}}'
       changeChart(days, year, atenciones_cant_data);
-  })
+  });
+
+    // Si se seleccion una atencion se pone active
+    $(document).on("click", ".list-group-item", function() {
+          $('.list-group-item').removeClass('active');
+          $(this).addClass('active');
+    });
+    // Si se cierra el modal la atencion deja de estar active(evento de cierre de un modal de boostrap hidden.bs.modal)
+    $('#modal_atencion').on('hidden.bs.modal', function () {
+          $('.list-group-item').removeClass('active');
+    })
+
   function changeChart(days, year, atenciones_cant_data){
 
       Highcharts.chart('container', {
@@ -288,6 +401,33 @@
           }]
       });
   }
+  // Función para obtener los datos de una atención médica al seleccionar su id en Listado de ultimas atenciones
+    function ver_atencion(id){
+        $.ajax({
+            type: "POST",
+            url: "{% url 'Cestock:atencion-detalle'%}",
+            data: {
+                csrfmiddlewaretoken: '{{ csrf_token }}',
+                'id': id
+            },
+            success: function (data, status) {
+                console.log("data", data)
+
+                // Valores de la atencion medica, el texto se pone en los span con esa id
+                $('#id').text(data.id);
+                $('#doctor').text(data.doctor);
+                $('#ficha').text(data.ficha);
+                $('#fecha').text(data.fecha);
+                $('#paciente').text(data.paciente);
+                $('#sintomas').text(data.sintomas);
+                $('#diagnostico').text(data.diagnostico);
+                $('#tratamiento').text(data.tratamiento);
+                $('#observacion').text(data.observacion);
+
+            }
+        });
+    }
+
   </script>
 {% endblock js %}
 </body>
