@@ -67,6 +67,7 @@ def index(request):
             return redirect(reverse('Cestock:PaginaPrincipal'))
         else:
             print(form.errors)
+            messages.add_message(request, messages.ERROR, 'Nombre de usuario o contraseña incorrecta',extra_tags='inicio de sesión')
     else:
         form = LoginForm()
     return render(request, 'Cestock/login.html', {'form': form, 'hidden_register': True})
@@ -92,7 +93,10 @@ def PaginaPrincipal(request):
 
     # Recorres del primer dia a el ultimo contado las atenciones medicas de ese dia
     while primer_dia_semana <= ultimo_dia_semana:
-        atenciones_medicas_dia = Atencion_Medica.objects.filter(nombre_medico=request.user.username,fecha_atencion_medica__day=primer_dia_semana.day, fecha_atencion_medica__month=primer_dia_semana.month, fecha_atencion_medica__year=primer_dia_semana.year)
+        if request.user.is_staff:
+            atenciones_medicas_dia = Atencion_Medica.objects.filter(fecha_atencion_medica__day=primer_dia_semana.day, fecha_atencion_medica__month=primer_dia_semana.month, fecha_atencion_medica__year=primer_dia_semana.year)
+        else:
+            atenciones_medicas_dia = Atencion_Medica.objects.filter(nombre_medico=request.user.username,fecha_atencion_medica__day=primer_dia_semana.day, fecha_atencion_medica__month=primer_dia_semana.month, fecha_atencion_medica__year=primer_dia_semana.year)
         # Cambio el formato de la fecha %d es dia en número , %b es mes de manera corta
         date_text = str(primer_dia_semana.strftime("%d %b. "))
 
@@ -103,7 +107,10 @@ def PaginaPrincipal(request):
 
         atenciones_medicas_data.append(info)
         primer_dia_semana += d
-    ultimas_atenciones_medicas = Atencion_Medica.objects.filter(nombre_medico=request.user.username).order_by('-id')[:4]
+    if request.user.is_staff:
+        ultimas_atenciones_medicas = Atencion_Medica.objects.order_by('-id')[:4]
+    else:
+        ultimas_atenciones_medicas = Atencion_Medica.objects.filter(nombre_medico=request.user.username).order_by('-id')[:4]
     context = {
         'ultimas_atenciones_medicas': ultimas_atenciones_medicas,
         'atenciones_medicas_data': atenciones_medicas_data,

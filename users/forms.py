@@ -145,5 +145,5 @@ class UserMedicoEditForm(forms.ModelForm):
         widgets = {
             'username': TextInput(attrs={'placeholder': 'Ingrese nombre', 'class': 'form-control'}),
             'email': EmailInput(attrs={'placeholder': 'Ingrese correo', 'class': 'form-control'}),
-            # 'rut_medico': TextInput(attrs={'placeholder': 'Ingrese rut', 'class': 'form-control valida-rut'}),
+            'rut_medico': TextInput(attrs={'placeholder': 'Ingrese rut', 'class': 'form-control valida-rut'}),
         }

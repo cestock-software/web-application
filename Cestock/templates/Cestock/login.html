@@ -45,4 +45,20 @@
         </div>
     </div>
 </body>
+<script src='static/alert/sweetalert2.all.min.js'></script>
+<script type="text/javascript">
+    {% if messages %}
+        {% for message in messages %}
+            {% if message.level == 40 %}
+                Swal.fire({
+                    {% if message.extra_tags %}
+                        title: "{{ message.extra_tags }}",
+                    {% endif %}
+                    text: "{{ message }}",
+                    type: 'error',
+                });
+            {% endif %}
+        {% endfor %}
+    {% endif %}
+</script>
 </html>
