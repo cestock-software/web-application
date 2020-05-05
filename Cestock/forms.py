@@ -1,5 +1,10 @@
 from django import forms
+<<<<<<< HEAD
 from .models import *
+=======
+from .models import Carnet_Paciente
+from .models import Medicamento_Recetado
+>>>>>>> origin/alex
 
 
 class CarnetForm(forms.ModelForm):
@@ -69,4 +74,37 @@ class PacienteForm(forms.ModelForm):
             'nombre_familiar': forms.TextInput(attrs={'class': 'form-control-sm form-control', 'readonly': ''}),
             'nro_familiar': forms.TextInput(attrs={'class': 'form-control-sm form-control', 'readonly': ''}),
             'email_familiar': forms.TextInput(attrs={'class': 'form-control-sm form-control', 'readonly': ''}),
+        }
+
+
+class MedicamentoRecetadoForm(forms.ModelForm):
+
+    class Meta:
+        model = Medicamento_Recetado
+
+        fields = [
+            'id_medicamento_recetado',
+            'id_medicamento',
+            'id_receta_medica',
+            'duracion',
+            'frecuencia',
+            'cantidad_recetada',
+        ]
+
+        labels = {
+            'id_medicamento_recetado': 'ID Medicamento Recetado',
+            'id_medicamento': 'ID Medicamento',
+            'id_receta_medica': 'ID Receta Médica',
+            'duracion': 'Duración',
+            'frecuencia': 'Frecuencia',
+            'cantidad_recetada': 'Cant. Recetada',
+        }
+
+        widgets = {
+            'id_medicamento_recetado': forms.TextInput(attrs={'class': 'form-control-sm form-control', 'readonly': ''}),
+            'id_medicamento': forms.TextInput(attrs={'class': 'form-control-sm form-control', 'readonly': ''}),
+            'id_receta_medica': forms.TextInput(attrs={'class': 'form-control-sm form-control', 'readonly': ''}),
+            'duracion': forms.TextInput(attrs={'class': 'form-control-sm form-control', 'readonly': ''}),
+            'frecuencia': forms.TextInput(attrs={'class': 'form-control-sm form-control', 'readonly': ''}),
+            'cantidad_recetada': forms.TextInput(attrs={'class': 'form-control-sm form-control', 'readonly': ''}),
         }

@@ -178,7 +178,7 @@ class Paciente(models.Model):
         return f'{self.rut_paciente}' 
 
 class Receta_Medica(models.Model):
-    id_receta = models.IntegerField(primary_key=True)
+    id_receta_medica = models.IntegerField(primary_key=True)
     id_atencion_medica = models.ForeignKey('Atencion_Medica', db_column='id_atencion_medica', on_delete=models.CASCADE, null=False)
 
     class Meta:
