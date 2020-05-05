@@ -1,3 +1,4 @@
 env/
 .vscode/
 Cestock/migrations
+Cestock/__pycache__
