@@ -103,7 +103,10 @@ def usuario_lista_database(request):
             edit_button = '<a href="' + url_edit + '" class="btn btn-link"><i class="fas fa-pen"></i></a>'
             delete_button = '<button class="btn btn-link" onclick="delete_user(' + str(user.id) + ')"  ><i class="fas fa-trash"></i></button>'
 
-            actions = edit_button + delete_button
+            if user.is_staff:
+                actions = edit_button 
+            else:
+                actions = edit_button + delete_button
 
             dataArray.append([
                 user.id,

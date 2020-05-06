@@ -147,3 +147,9 @@ class UserMedicoEditForm(forms.ModelForm):
             'email': EmailInput(attrs={'placeholder': 'Ingrese correo', 'class': 'form-control'}),
             'rut_medico': TextInput(attrs={'placeholder': 'Ingrese rut', 'class': 'form-control valida-rut'}),
         }
+
+
+# class UserDeleteForm(forms.ModelForm):
+#     class Meta:
+#         model = UserMedico
+#         fields=['is_active']
