@@ -1,8 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from .models import *
-from .forms import CarnetForm, PacienteForm
-from .forms import MedicamentoRecetadoForm
+from .forms import *
 from .filters import *
 
 # Create your views here.
@@ -23,10 +22,10 @@ def AtencionMedica(request):
 def ListaPacientes(request):
     pacientes = Paciente.objects.all()
 
-    filtro = PacienteFilter(request.GET, queryset=pacientes)
-    pacientes = filtro.qs
+    pacientefilter = PacienteFilter(request.GET, queryset=pacientes)
+    pacientes = pacientefilter.qs
 
-    context = {'pacientes': pacientes, 'filtro': filtro}
+    context = {'pacientes': pacientes, 'pacientefilter': pacientefilter}
 
     return render(request, "Cestock/ListaPacientes.html", context)
 
@@ -61,22 +60,35 @@ def InfoCarnetPaciente(request, rut):
 
     return render(request, 'Cestock/InfoCarnet.html', {'form': form})
 
-def ListaRecetas(request):
+def ListaAtenciones(request):
+    carnets = Carnet_Paciente.objects.all()
     recetas = Receta_Medica.objects.all()
+    atenciones = Atencion_Medica.objects.all()
 
     filtro = RecetaFilter(request.GET, queryset=recetas)
     recetas = filtro.qs
 
-    context = {'recetas': recetas, 'filtro': filtro}
+    context = {
+        'carnets': carnets,
+        'recetas': recetas, 
+        'atenciones': atenciones, 
+        'filtro': filtro
+    }
 
-    return render(request, "Cestock/ListaRecetas.html", context)
+    return render(request, "Cestock/ListaAtenciones.html", context)
 
 
 def InfoMedicamentoRecetado(request, id_med):
     med_recetado = Medicamento_Recetado.objects.get(id_receta_medica=id_med)
+    medicamentos = Medicamento.objects.all()
 
     if request.method == 'GET':
         form = MedicamentoRecetadoForm(instance=med_recetado)
 
-    return render(request, 'Cestock/InfoMedicamentoRecetado.html', {'form': form})
+    context = {
+        'medicamentos': medicamentos,
+        'form': form
+    }
+
+    return render(request, 'Cestock/InfoMedicamentoRecetado.html', context)
 

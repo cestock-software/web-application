@@ -19,42 +19,6 @@
     <title> {% block titulo %}Menu{% endblock titulo %}</title>
 </head>
 <body>
-    {% comment %} <nav class="navbar navbar-expand-lg navbar-light" style="background-color: cornflowerblue;">
-        <a class="navbar-brand" href="{% url 'PaginaPrincipal' %}">CESTOCK</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor03" aria-controls="navbarColor03" aria-expanded="true" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-    
-        <div class="navbar-collapse collapse" id="navbarColor03" style="background-color: cornflowerblue;">
-          <ul class="navbar-nav mr-auto">
-            <li class="nav-item">
-              <a class="nav-link" href="{% url 'ListaPacientes' %}">Pacientes</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="{% url 'ListaRecetas' %}">Recetas Medicas</a>
-            </li>
-             <li class="nav-item">
-              <a class="nav-link" href="{% url 'StockMedicamento' %}">Stock Medicamentos</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="{% url 'AtencionMedica' %}">Atenciones</a>
-            </li>
-          </ul>
-
-          <ul class=" navbar-nav navbar-right">
-             
-            <li class="dropdown nav-item">
-              <a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">User</a>
-              <ul class="dropdown-menu dropdown-menu-right">
-                <li class="nav-item"><a class="nav-link" href="#">Home</a></li>
-                <li role="separator" class="divider"></li>  
-                <li class="nav-item"><a class="nav-link" href="#">Salir</a></li>
-              </ul>
-            </li>
-          </ul>
-        </div>
-      </nav> {% endcomment %}
-
   <div class="page-wrapper chiller-theme toggled">
     <a id="show-sidebar" class="btn btn-sm btn-dark" href="#">
       <i class="fas fa-bars"></i>
@@ -79,9 +43,9 @@
               </a>
             </li>
             <li>
-              <a href="#">
+              <a href="{% url 'ListaAtenciones' %}">
                 <i class="fa fa-calendar"></i>
-                <span>Recetas Medicas</span>
+                <span>Historial Atenciones</span>
               </a>
             </li>
             <li>
@@ -93,7 +57,7 @@
             <li>
               <a href="{% url 'AtencionMedica' %}">
                 <i class="fas fa-notes-medical"></i>
-                <span>Atenciones</span>
+                <span>Crear Atención</span>
               </a>
             </li>
           </ul>

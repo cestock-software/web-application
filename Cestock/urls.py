@@ -9,6 +9,6 @@ urlpatterns = [
     path('info-carnet/<str:rut>', views.InfoCarnetPaciente, name='InfoCarnetPaciente'),
     path('info-personal-paciente/<str:rut>', views.InfoPersonalPaciente, name='InfoPersonalPaciente'),
     path('stock-medicamentos/', views.StockMedicamento, name='StockMedicamento'),
-    path('lista-recetas/', views.ListaRecetas, name='ListaRecetas'),
+    path('lista-recetas/', views.ListaAtenciones, name='ListaAtenciones'),
     path('info-receta/<str:id_med>', views.InfoMedicamentoRecetado, name='InfoMedicamentoRecetado'),
 ]
