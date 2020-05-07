@@ -56,7 +56,7 @@
                   {% for atencion in atenciones %}
                   {% if atencion.nro_ficha == carnet %}
                   {% for receta in recetas %}
-                  {% if receta.id_atencion_medica == atencion %}
+                  {% if receta.atencion_medica == atencion %}
                   <tr>
                     <th scope="row">{{ atencion.id }}</td>
                     <td>{{ carnet.rut_paciente }}</td>

@@ -209,17 +209,6 @@ def InfoCarnetPaciente(request, rut):
 
     return render(request, 'Cestock/InfoCarnet.html', {'form': form})
 
-
-
-# def ListaRecetas(request):
-#     recetas = Receta_Medica.objects.all()
-
-#     filtro = RecetaFilter(request.GET, queryset=recetas)
-#     recetas = filtro.qs
-
-#     context = {'recetas': recetas, 'filtro': filtro}
-
-#     return render(request, "Cestock/ListaRecetas.html", context)
 def ListaAtenciones(request):
     carnets = Carnet_Paciente.objects.all()
     recetas = Receta_Medica.objects.all()
