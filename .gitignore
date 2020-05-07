@@ -5,8 +5,15 @@ env/
 *.pot
 *.pyc
 __pycache__/
+migrations/
+
 local_settings.py
 
+*/*/*/migrations/
+
+*/*/migrations/
+
+*/migrations/
 
 */*/*/__pycache__/
 
