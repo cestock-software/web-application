@@ -225,6 +225,18 @@ def ListaAtenciones(request):
     }
     return render(request, "Cestock/ListaAtenciones.html", context)
 
+def InfoDetalleAtencion(request, id_atencion):
+    detalle = Detalle_Atencion.objects.get(atencion_medica=id_atencion)
+
+    if request.method == 'GET':
+        form = DetalleAtencionForm(instance=detalle)
+    
+    context = {
+        'form': form
+    }
+
+    return render ('Cestock/InfoDetalleAtencion.html', context)
+
 def InfoMedicamentoRecetado(request, id_med):
     med_recetado = Medicamento_Recetado.objects.get(id_receta_medica=id_med)
     medicamentos = Medicamento.objects.all()
