@@ -172,17 +172,16 @@ def crearAtencionMedica(request):
 def ListaPacientes(request):
     pacientes = Paciente.objects.all()
 
-    filtro = PacienteFilter(request.GET, queryset=pacientes)
-    pacientes = filtro.qs
-
-    context = {'pacientes': pacientes, 'filtro': filtro}
+    pacientefilter = PacienteFilter(request.GET, queryset=pacientes)
+    pacientes = pacientefilter.qs
+    
+    context = {'pacientes': pacientes, 'pacientefilter': pacientefilter}
 
     return render(request, "Cestock/ListaPacientes.html", context)
 
 
 def StockMedicamento(request):
-    medicamentos = Medicamento.objects.all()
-
+    medicamentos = Medicamento.objects.all().order_by('id_medicamento')
     filtro = MedicamentoFilter(request.GET, queryset=medicamentos)
     medicamentos = filtro.qs
 
@@ -212,21 +211,40 @@ def InfoCarnetPaciente(request, rut):
 
 
 
-def ListaRecetas(request):
+# def ListaRecetas(request):
+#     recetas = Receta_Medica.objects.all()
+
+#     filtro = RecetaFilter(request.GET, queryset=recetas)
+#     recetas = filtro.qs
+
+#     context = {'recetas': recetas, 'filtro': filtro}
+
+#     return render(request, "Cestock/ListaRecetas.html", context)
+def ListaAtenciones(request):
+    carnets = Carnet_Paciente.objects.all()
     recetas = Receta_Medica.objects.all()
+    atenciones = Atencion_Medica.objects.all()
 
     filtro = RecetaFilter(request.GET, queryset=recetas)
     recetas = filtro.qs
 
-    context = {'recetas': recetas, 'filtro': filtro}
-
-    return render(request, "Cestock/ListaRecetas.html", context)
-
+    context = {
+        'carnets': carnets,
+        'recetas': recetas, 
+        'atenciones': atenciones, 
+        'filtro': filtro
+    }
+    return render(request, "Cestock/ListaAtenciones.html", context)
 
 def InfoMedicamentoRecetado(request, id_med):
     med_recetado = Medicamento_Recetado.objects.get(id_receta_medica=id_med)
-
+    medicamentos = Medicamento.objects.all()
     if request.method == 'GET':
         form = MedicamentoRecetadoForm(instance=med_recetado)
 
-    return render(request, 'Cestock/InfoMedicamentoRecetado.html', {'form': form})
+    context = {
+        'medicamentos': medicamentos,
+        'form': form
+    }
+
+    return render(request, 'Cestock/InfoMedicamentoRecetado.html', context)

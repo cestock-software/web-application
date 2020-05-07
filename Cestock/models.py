@@ -1,5 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser
+from datetime import datetime
+import datetime
 # Create your models here.
 
 # class Userito(AbstractBaseUser):
@@ -74,6 +76,7 @@ class Error(models.Model):
     codigo_error = models.CharField(default="",max_length=255, blank=True, null=True)
     fecha_hora_error = models.DateField(auto_now=True,blank=True, null=True)
     lugar_error = models.CharField(default="",max_length=255, blank=True, null=True)
+    estado = models.CharField(max_length=1,blank=True, null=True)
 
     class Meta:
         db_table = 'error'
@@ -122,6 +125,7 @@ class Medicamento(models.Model):
     total_disponible = models.IntegerField(default=0,blank=True, null=True)
     total_reservado = models.IntegerField(default=0,blank=True, null=True)
     total_retirado = models.IntegerField(default=0,blank=True, null=True)
+    estado = models.CharField(default="",max_length=1, blank=True, null=True)
 
     class Meta:
         db_table = 'medicamento'
@@ -175,6 +179,7 @@ class Paciente(models.Model):
     nombre_familiar = models.CharField(default="",max_length=255, blank=True, null=True)
     nro_familiar = models.CharField(default="",max_length=255, blank=True, null=True)
     email_familiar = models.CharField(default="",max_length=255, blank=True, null=True)
+    estado = models.CharField(default="",max_length=1, blank=True, null=True)
 
     class Meta:
         db_table = 'paciente'
@@ -183,6 +188,35 @@ class Paciente(models.Model):
 
     def __str__(self):
         return f'{self.rut_paciente}' 
+
+class Recordatorio(models.Model):
+    id_recordatorio = models.IntegerField(primary_key=True)
+    id_medicamento = models.IntegerField(default=0,blank=True, null=True)
+    nombre_medicamento = models.CharField(default="",max_length=255,blank=True, null=True)
+    cantidad = models.IntegerField(default=0,blank=True, null=True)
+    motivo = models.CharField(default="",max_length=255,blank=True, null=True)
+    fecha_retiro = models.DateField(blank=True, null=True)
+
+    class Meta:
+        db_table = 'recordatorio'
+        verbose_name = 'Recordatorio'
+        verbose_name_plural = 'Recordatorios'
+
+    def __str__(self):
+        return f'{self.id_recordatorio}' 
+
+class Tipo_Retiro(models.Model):
+    id_tipo_retiro = models.IntegerField(primary_key=True)
+    descripcion_retiro = models.CharField(default="",max_length=255)
+
+    class Meta:
+        db_table = 'tipo_retiro'
+        verbose_name = 'Tipo Retiro'
+        verbose_name_plural = 'Tipo Retiros'
+
+    def __str__(self):
+        return f'{self.id_tipo_retiro}'
+
 
 class Receta_Medica(models.Model):
     id_receta_medica = models.IntegerField(primary_key=True)
@@ -200,8 +234,8 @@ class Reposicion(models.Model):
     id_reposicion = models.IntegerField(primary_key=True)
     id_medicamento = models.ForeignKey('Medicamento', db_column='id_medicamento',on_delete=models.CASCADE, null=True)
     cantidad_repuesta = models.FloatField( default=0,blank=True, null=True)
-    fecha_reposicion = models.DateField(auto_now=True,blank=True, null=True)
-    fecha_vencimiento = models.DateField(auto_now=True,blank=True, null=True)
+    fecha_reposicion = models.DateField(default=datetime.date.today, null=False)
+    fecha_vencimiento = models.DateField(default=datetime.date.today, null=False)
     nombre_farmaceutico = models.CharField(default="",max_length=255, blank=True, null=True)
 
     class Meta:
@@ -259,17 +293,6 @@ class Usuario(models.Model):
         return f'{self.id_usuario}' 
 
 
-class tipo_retiro(models.Model):
-    id_tipo_retiro = models.IntegerField(primary_key=True)
-    descripcion_retiro = models.CharField(default="",max_length=255, blank=True, null=True)
-
-    class Meta:
-        db_table = 'tipo_retiro'
-        verbose_name = 'tipo_retiro'
-        verbose_name_plural = 'tipo_retiro'
-
-    def __str__(self):
-        return f'{self.id_tipo_retiro}' 
 
 class retiro_medicamento(models.Model):
     id_retiro = models.IntegerField(primary_key=True)

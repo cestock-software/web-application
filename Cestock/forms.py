@@ -155,7 +155,8 @@ class PacienteForm(forms.ModelForm):
             'ap_paterno', 
             'ap_materno', 
             'sexo',
-            'fecha_nacimiento'
+            'fecha_nacimiento',
+            'estado'
         ]
 
         labels = {
@@ -186,7 +187,6 @@ class MedicamentoRecetadoForm(forms.ModelForm):
         model = Medicamento_Recetado
 
         fields = [
-            'id_medicamento_recetado',
             'id_medicamento',
             'id_receta_medica',
             'duracion',
@@ -195,18 +195,16 @@ class MedicamentoRecetadoForm(forms.ModelForm):
         ]
 
         labels = {
-            'id_medicamento_recetado': 'ID Medicamento Recetado',
             'id_medicamento': 'ID Medicamento',
-            'id_receta_medica': 'ID Receta Médica',
+            'id_receta_medica': 'ID Receta',
             'duracion': 'Duración',
             'frecuencia': 'Frecuencia',
             'cantidad_recetada': 'Cant. Recetada',
         }
 
         widgets = {
-            'id_medicamento_recetado': forms.TextInput(attrs={'class': 'form-control-sm form-control', 'readonly': ''}),
-            'id_medicamento': forms.TextInput(attrs={'class': 'form-control-sm form-control', 'readonly': ''}),
             'id_receta_medica': forms.TextInput(attrs={'class': 'form-control-sm form-control', 'readonly': ''}),
+            'id_medicamento': forms.TextInput(attrs={'class': 'form-control-sm form-control', 'readonly': ''}),
             'duracion': forms.TextInput(attrs={'class': 'form-control-sm form-control', 'readonly': ''}),
             'frecuencia': forms.TextInput(attrs={'class': 'form-control-sm form-control', 'readonly': ''}),
             'cantidad_recetada': forms.TextInput(attrs={'class': 'form-control-sm form-control', 'readonly': ''}),

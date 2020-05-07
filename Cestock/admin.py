@@ -38,7 +38,7 @@ class ListaInformeMedicamento(admin.ModelAdmin):
     list_display = ['id_informe', 'id_tipo_informe', 'id_medicamento', 'nombre_medicamento', 'cantidad', 'nombre_farmaceutico', 'observacion']
 
 class ListaMedicamento(admin.ModelAdmin):
-    list_display = ['id_medicamento', 'nombre_medicamento', 'formato', 'gr_ml', 'laboratorio', 'total_disponible', 'total_reservado', 'total_retirado']
+    list_display = ['id_medicamento', 'nombre_medicamento', 'formato', 'gr_ml', 'laboratorio', 'total_disponible', 'total_reservado', 'total_retirado','estado']
 
 class ListaMedicamentoEntregado(admin.ModelAdmin):
     list_display = ['id_entrega_medicamento', 'id_medicamento_recetado', 'cantidad_entregada']
@@ -46,8 +46,14 @@ class ListaMedicamentoEntregado(admin.ModelAdmin):
 class ListaMedicamentoRecetado(admin.ModelAdmin):
     list_display = ['id_medicamento_recetado', 'id_medicamento', 'duracion', 'frecuencia', 'cantidad_recetada']
 
+class ListaRecordatorio(admin.ModelAdmin):
+    list_display = ['id_recordatorio', 'id_medicamento', 'nombre_medicamento', 'cantidad', 'motivo', 'fecha_retiro']
+
+class ListaTipoRetiro(admin.ModelAdmin):
+    list_display = ['id_tipo_retiro', 'descripcion_retiro']
+
 class ListaPaciente(admin.ModelAdmin):
-    list_display = ['rut_paciente', 'nombre', 'ap_paterno', 'ap_materno', 'direccion', 'email', 'nro_celular', 'fecha_nacimiento', 'sexo', 'comuna', 'nombre_familiar', 'email_familiar']
+    list_display = ['rut_paciente', 'nombre', 'ap_paterno', 'ap_materno', 'direccion', 'email', 'nro_celular', 'fecha_nacimiento', 'sexo', 'comuna', 'nombre_familiar', 'email_familiar','estado']
 
 class ListaRecetaMedica(admin.ModelAdmin):
     list_display = ['id_receta_medica']
@@ -65,6 +71,8 @@ class ListaTipoInforme(admin.ModelAdmin):
 class ListaUsuario(admin.ModelAdmin):
     list_display = ['id_usuario', 'rut_usuario', 'contrasena', 'tipo_usuario', 'nivel_usuario', 'nombre_completo']
 
+admin.site.register(Recordatorio, ListaRecordatorio)
+admin.site.register(Tipo_Retiro, ListaTipoRetiro)
 admin.site.register(UserMedico, UserAdminView)
 admin.site.register(Atencion_Medica, ListaAtencion)
 admin.site.register(Carnet_Paciente, ListaCarnet)

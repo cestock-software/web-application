@@ -1,4 +1,4 @@
-{% extends 'Cestock/PaginaPrincipal.html' %} 
+<!-- {% extends 'Cestock/PaginaPrincipal.html' %} 
 {% load static %} 
 
 {% block css %}
@@ -6,38 +6,25 @@
 
 {% block titulo %}Medicamento Recetado{% endblock titulo %} 
 
-{% block Pagina %}
-<div class="container">
-  <div class="row tabla-lista">
-    <div class="col text-left">
-      <div class="row">
-        <div class="col-md 10">
-          <h4>Información de Medicamento Recetado</h4>
-        </div>
-        <div class="col-md-2">
-          <a class="btn btn-primary" href="{% url 'ListaRecetas' %}">Atrás</a>
-        </div>
-      </div>
-      <br />
-      <div class="row">
-        <div class="mx-auto col-sm-10">
-          <div class="card">
-            <div class="card-body">
-
-              {% if med_recetado.id_receta == id_med %}
-              <form method="post">
-                {% csrf_token %} 
-                {{form.as_p}}
-              </form>
-              {% elif id_med is None %}
-              <h2>La Receta Medica no tiene Medicamentos.</h2>
-              {% endif %}
-            </div>
-          </div>
-        </div>
-      </div>
-      <br />
+{% block Pagina %} -->
+<div class="modal-dialog" role="document">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h4 class="modal-title">Información de la Receta Emitida</h4>
+    </div>
+    <div class="modal-body">
+      {% if med_recetado.id_receta_medica == id_med %} 
+        {% csrf_token %}
+        {{form.as_p}} 
+      {% elif id_med is None %}
+        <h2>No se elaboró una receta para esta atención.</h2>
+      {% endif %}
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-info" type="button" data-dismiss="modal">
+        Atrás
+      </button>
     </div>
   </div>
 </div>
-{% endblock Pagina %}
+<!-- {% endblock Pagina %} -->

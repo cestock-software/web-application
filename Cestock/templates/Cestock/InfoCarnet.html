@@ -14,11 +14,13 @@
     </div>
   
     <div class="modal-body">
-      {% if carnet.rut_paciente == rut %}
-        {{form.as_p}}  
-      {% else %}
-        <h4>Paciente no posee carnet de atención.</h4>
-      {% endif %}
+      <form action="get">
+        {% if carnet.rut_paciente == rut %}
+          {{form.as_p}}  
+        {% else %}
+          <h4>Paciente no posee carnet de atención.</h4>
+        {% endif %}
+      </form>
     </div>
 
     <div class="modal-footer">

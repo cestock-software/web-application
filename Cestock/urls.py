@@ -13,8 +13,9 @@ urlpatterns = [
     # path('prescripcion/<int:pk>/', views.Prescripcion, name='Prescripcion'),
     path('lista-pacientes/', views.ListaPacientes, name='ListaPacientes'),
     path('stock-medicamentos/', views.StockMedicamento, name='StockMedicamento'),
-    path('lista-recetas/', views.ListaRecetas, name='ListaRecetas'),
+    # path('lista-recetas/', views.ListaRecetas, name='ListaRecetas'),
     path('InfoMedicamentoRecetado/<str:id_med>', views.InfoMedicamentoRecetado, name='InfoMedicamentoRecetado'),
     path('InfoPersonalPaciente/<str:rut>', views.InfoPersonalPaciente, name='InfoPersonalPaciente'),
     path('InfoCarnetPaciente/<str:rut>', views.InfoCarnetPaciente, name='InfoCarnetPaciente'),
+    path('lista-recetas/', views.ListaAtenciones, name='ListaAtenciones'),
 ]
