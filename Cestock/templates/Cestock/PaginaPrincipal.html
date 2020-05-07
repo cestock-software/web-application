@@ -547,10 +547,14 @@
   </script>
 {% endblock js %}
 {% else %}
+    <br>
+    <br>
     <div id="merror" style="text-align: center;">
         <img src="https://pngimage.net/wp-content/uploads/2018/06/404-not-found-png-5.png" alt="" id="imgerror">
-    <h2>Se genero un error inesperado,por favor regrese a la <a href="{% url 'Cestock:login' %}">Pagina Principal</a></h2>
-    <a class="btn btn-danger" href="{% url 'Cestock:login' %}">Pagina Principal</a>
+        <br>
+        <br>
+        <h2>Se genero un error inesperado,por favor regrese al Inicio de Sesión</h2>
+        <a class="btn btn-danger" href="{% url 'Cestock:login' %}">Inicio de Sesión</a>
     </div>
 {% endif %}
 </body>
