@@ -31,7 +31,7 @@ def ListaPacientes(request):
 
 
 def StockMedicamento(request):
-    medicamentos = Medicamento.objects.all()
+    medicamentos = Medicamento.objects.all().order_by('id_medicamento')
 
     filtro = MedicamentoFilter(request.GET, queryset=medicamentos)
     medicamentos = filtro.qs

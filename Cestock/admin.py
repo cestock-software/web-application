@@ -24,7 +24,7 @@ class ListaInformeMedicamento(admin.ModelAdmin):
     list_display = ['id_informe', 'id_tipo_informe', 'id_medicamento', 'nombre_medicamento', 'cantidad', 'nombre_farmaceutico', 'observacion']
 
 class ListaMedicamento(admin.ModelAdmin):
-    list_display = ['id_medicamento', 'nombre_medicamento', 'formato', 'gr_ml', 'laboratorio', 'total_disponible', 'total_reservado', 'total_retirado']
+    list_display = ['id_medicamento', 'nombre_medicamento', 'formato', 'gr_ml', 'laboratorio', 'total_disponible', 'total_reservado', 'total_retirado', 'estado']
 
 class ListaMedicamentoEntregado(admin.ModelAdmin):
     list_display = ['id_entrega_medicamento', 'id_medicamento_recetado', 'cantidad_entregada']
@@ -33,10 +33,13 @@ class ListaMedicamentoRecetado(admin.ModelAdmin):
     list_display = ['id_medicamento_recetado', 'id_medicamento', 'duracion', 'frecuencia', 'cantidad_recetada']
 
 class ListaPaciente(admin.ModelAdmin):
-    list_display = ['rut_paciente', 'nombre', 'ap_paterno', 'ap_materno', 'direccion', 'email', 'nro_celular', 'fecha_nacimiento', 'sexo', 'comuna', 'nombre_familiar', 'email_familiar']
+    list_display = ['rut_paciente', 'nombre', 'ap_paterno', 'ap_materno', 'direccion', 'email', 'nro_celular', 'fecha_nacimiento', 'sexo', 'comuna', 'nombre_familiar', 'email_familiar', 'estado']
 
 class ListaRecetaMedica(admin.ModelAdmin):
     list_display = ['id_receta_medica', 'id_atencion_medica']
+
+class ListaRecordatorio(admin.ModelAdmin):
+    list_display = ['id_recordatorio', 'id_medicamento', 'nombre_medicamento', 'cantidad', 'motivo', 'fecha_retiro']
 
 class ListaReposicion(admin.ModelAdmin):
     list_display = ['id_reposicion', 'id_medicamento', 'cantidad_repuesta', 'fecha_reposicion', 'fecha_vencimiento', 'nombre_farmaceutico']
@@ -47,9 +50,11 @@ class ListaReserva(admin.ModelAdmin):
 class ListaTipoInforme(admin.ModelAdmin):
     list_display = ['id_tipo_informe', 'tipo_informe']
 
+class ListaTipoRetiro(admin.ModelAdmin):
+    list_display = ['id_tipo_retiro', 'descripcion_retiro']
+
 class ListaUsuario(admin.ModelAdmin):
     list_display = ['id_usuario', 'rut_usuario', 'contrasena', 'tipo_usuario', 'nivel_usuario', 'nombre_completo']
-
 
 admin.site.register(Atencion_Medica, ListaAtencion)
 admin.site.register(Carnet_Paciente, ListaCarnet)
@@ -63,7 +68,9 @@ admin.site.register(Medicamento_Entregado, ListaMedicamentoEntregado)
 admin.site.register(Medicamento_Recetado, ListaMedicamentoRecetado)
 admin.site.register(Paciente, ListaPaciente)
 admin.site.register(Receta_Medica, ListaRecetaMedica)
+admin.site.register(Recordatorio, ListaRecordatorio)
 admin.site.register(Reposicion, ListaReposicion)
 admin.site.register(Reserva, ListaReserva)
 admin.site.register(Tipo_Informe, ListaTipoInforme)
+admin.site.register(Tipo_Retiro, ListaTipoRetiro)
 admin.site.register(Usuario, ListaUsuario)

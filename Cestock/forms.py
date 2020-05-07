@@ -50,7 +50,8 @@ class PacienteForm(forms.ModelForm):
             'ap_paterno', 
             'ap_materno', 
             'sexo',
-            'fecha_nacimiento'
+            'fecha_nacimiento',
+            'estado'
         ]
 
         labels = {

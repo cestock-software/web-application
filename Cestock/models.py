@@ -63,7 +63,7 @@ class Entrega(models.Model):
 
 class Error(models.Model):
     id_error = models.IntegerField(primary_key=True)
-    nro_error = models.IntegerField()
+ nro_error = models.IntegerField()
     codigo_error = models.CharField(max_length=255)
     fecha_hora_error = models.DateField()
     lugar_error = models.CharField(max_length=255)
@@ -115,6 +115,7 @@ class Medicamento(models.Model):
     total_disponible = models.IntegerField()
     total_reservado = models.IntegerField(blank=True, null=True)
     total_retirado = models.IntegerField(blank=True, null=True)
+    estado = models.CharField(max_length=1)
 
     class Meta:
         db_table = 'medicamento'
@@ -168,6 +169,7 @@ class Paciente(models.Model):
     nombre_familiar = models.CharField(max_length=255)
     nro_familiar = models.CharField(max_length=255)
     email_familiar = models.CharField(max_length=255)
+    estado = models.CharField(max_length=1)
 
     class Meta:
         db_table = 'paciente'
@@ -187,7 +189,23 @@ class Receta_Medica(models.Model):
         verbose_name_plural = 'Recetas Médicas'
 
     def __str__(self):
-        return f'{self.id_receta}' 
+        return f'{self.id_receta}'
+
+class Recordatorio(models.Model):
+    id_recordatorio = models.IntegerField(primary_key=True)
+    id_medicamento = models.IntegerField()
+    nombre_medicamento = models.CharField(max_length=255)
+    cantidad = models.IntegerField()
+    motivo = models.CharField(max_length=255)
+    fecha_retiro = models.DateField()
+
+    class Meta:
+        db_table = 'recordatorio'
+        verbose_name = 'Recordatorio'
+        verbose_name_plural = 'Recordatorios'
+
+    def __str__(self):
+        return f'{self.id_recordatorio}' 
 
 class Reposicion(models.Model):
     id_reposicion = models.IntegerField(primary_key=True)
@@ -219,7 +237,23 @@ class Reserva(models.Model):
         verbose_name_plural = 'Reservas'
 
     def __str__(self):
-        return f'{self.id_reserva}' 
+        return f'{self.id_reserva}'
+
+class Retiro_Medicamento(models.Model):
+    id_retiro = models.IntegerField(primary_key=True)
+    id_medicamento = models.ForeignKey('Medicamento', on_delete=models.CASCADE, db_column='id_medicamento')
+    id_tipo_retiro = models.ForeignKey('Tipo_Retiro', on_delete=models.CASCADE, db_column='id_tipo_retiro')
+    cantidad_retirada = models.IntegerField()
+    fecha_retiro = models.DateField()
+
+    class Meta:
+        db_table = 'retiro_medicamento'
+        verbose_name = 'Retiro Medicamento'
+        verbose_name_plural = 'Retiro Medicamentos'
+    
+    def __str__(self):
+        return f'{self.id_retiro}'
+    
 
 class Tipo_Informe(models.Model):
     id_tipo_informe = models.IntegerField(primary_key=True)
@@ -233,6 +267,19 @@ class Tipo_Informe(models.Model):
     def __str__(self):
         return f'{self.id_tipo_informe}'
     
+class Tipo_Retiro(models.Model):
+    id_tipo_retiro = models.IntegerField(primary_key=True)
+    descripcion_retiro = models.CharField(max_length=255)
+
+    class Meta:
+        db_table = 'tipo_retiro'
+        verbose_name = 'Tipo Retiro'
+        verbose_name_plural = 'Tipo Retiros'
+
+    def __str__(self):
+        return f'{self.id_tipo_retiro}'
+    
+
 
 class Usuario(models.Model):
     id_usuario = models.IntegerField(primary_key=True)
@@ -241,8 +288,8 @@ class Usuario(models.Model):
     tipo_usuario = models.CharField(max_length=255)
     nivel_usuario = models.IntegerField()
     nombre_completo = models.CharField(max_length=255)
-
-
+    
+    
     class Meta:
         db_table = 'usuario'
         verbose_name = 'Usuario'
