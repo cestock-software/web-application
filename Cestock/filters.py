@@ -16,9 +16,9 @@ class PacienteFilter(django_filters.FilterSet):
         model = Paciente
         fields = ['nombre']
 
-class RecetaFilter(django_filters.FilterSet):
-    id_receta_medica = CharFilter(label='Buscar Por ID Receta:', field_name='id_receta_medica')
+class AtencionFilter(django_filters.FilterSet):
+    nro_ficha = CharFilter(label='Buscar Por Nro Ficha:', field_name='nro_ficha')
 
     class Meta:
-        model = Receta_Medica
-        fields = ['id_receta_medica'] 
+        model = Atencion_Medica
+        fields = ['nro_ficha'] 

@@ -214,8 +214,8 @@ def ListaAtenciones(request):
     recetas = Receta_Medica.objects.all()
     atenciones = Atencion_Medica.objects.all()
 
-    filtro = RecetaFilter(request.GET, queryset=recetas)
-    recetas = filtro.qs
+    filtro = AtencionFilter(request.GET, queryset=atenciones)
+    atenciones = filtro.qs
 
     context = {
         'carnets': carnets,

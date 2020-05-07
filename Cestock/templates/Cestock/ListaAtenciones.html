@@ -8,6 +8,8 @@
 {% block titulo %}Historial Atenciones{% endblock titulo %} 
 
 {% block Pagina %}
+<br>
+<br>
 <div class="container">
   <div class="row tabla-lista">
     <div class="col text-left">
@@ -43,37 +45,39 @@
                   {% if atenciones %}
                   <tr>
                     <th scope="col">ID Atención Médica</th>
+                    <th scope="col">Nro. Ficha</th>
                     <th scope="col">Rut Paciente</th>
                     <th scope="col">Nombre Médico</th>
-                    <th scope="col">ID Receta Emitida</th>
+                    {% comment %} <th scope="col">ID Receta Emitida</th> {% endcomment %}
                     <th scope="col">Fecha Atención</th>
                     <th scope="col">Fecha Próx. Atención</th>
-                    <th></th>
+                    {% comment %} <th></th> {% endcomment %}
                   </tr>
                 </thead>
                 <tbody>
                   {% for carnet in carnets %}
                   {% for atencion in atenciones %}
                   {% if atencion.nro_ficha == carnet %}
-                  {% for receta in recetas %}
-                  {% if receta.atencion_medica == atencion %}
+                  {% comment %} {% for receta in recetas %}
+                  {% if receta.atencion_medica == atencion %} {% endcomment %}
                   <tr>
                     <th scope="row">{{ atencion.id }}</td>
+                    <td>{{ atencion.nro_ficha }}</td>
                     <td>{{ carnet.rut_paciente }}</td>
                     <td>{{ atencion.nombre_medico }}</td>
-                    <td>{{ receta.id_receta_medica }}</td>
+                    {% comment %} <td>{{ receta.id_receta_medica }}</td> {% endcomment %}
                     <td>{{ atencion.fecha_atencion_medica }}</td>
                     {% if atencion.fecha_prox_atencion is None %}
                     <td>-</td>
                     {% else %}
                     <td>{{ atencion.fecha_prox_atencion}}</td>
                     {% endif %}
-                    <td>
+                    {% comment %} <td>
                       <button type="button" class="btn btn-sm btn-info" onclick="abrirModal('{% url 'Cestock:InfoMedicamentoRecetado' receta.id_receta_medica %}')"><i class="fas fa-file-prescription"></i> Receta</button>
-                    </td>
+                    </td> {% endcomment %}
                   </tr>
-                  {% endif %}
-                  {% endfor %}
+                  {% comment %} {% endif %}
+                  {% endfor %} {% endcomment %}
                   {% endif %}
                   {% endfor %}
                   {% endfor %}

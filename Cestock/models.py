@@ -220,7 +220,7 @@ class Tipo_Retiro(models.Model):
 
 class Receta_Medica(models.Model):
     id_receta_medica = models.IntegerField(primary_key=True)
-    atencion_medica = models.ForeignKey('Atencion_Medica',null=True,on_delete=models.CASCADE)
+    atencion_medica = models.ForeignKey('Atencion_Medica', db_column='id',null=True,on_delete=models.CASCADE)
 
     class Meta:
         db_table = 'receta_medica'
