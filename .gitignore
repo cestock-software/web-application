@@ -9,12 +9,6 @@ migrations/
 
 local_settings.py
 
-*/*/*/migrations/
-
-*/*/migrations/
-
-*/migrations/
-
 */*/*/__pycache__/
 
 */*/__pycache__/
