@@ -1,0 +1,110 @@
+{% extends 'Cestock/PaginaPrincipal.html' %}
+{% load static %}
+    {% block css %}
+    <style>
+      .textotal{
+        width: 100% !important;
+      }
+      .rojo{
+        color: rgb(252, 2, 2);
+      }
+      .order-form .container {
+      color: #4c4c4c;
+      padding: 20px;
+      box-shadow: 0 0 10px 0 rgba(0, 0, 0, .1);
+    }
+    .con_white{
+      background-color: #fefefe;
+    }
+
+    </style>
+    {% endblock css %}
+    {% block titulo %}Formulario usuario{% endblock titulo %}
+
+    {% block Pagina %}
+     <section class="order-form my-4 mx-4">
+        <div class="container con_white pt-4 rounded-lg" >
+            <div class="row">
+
+                <div class="col-12">
+                  {% if not form.instance.id %}
+                    <h3>Formulario para registrar</h3>
+                  {% else %}
+                    <h3>Formulario para editar</h3>
+                  {% endif%}
+                  <span>Ingrese los datos indicados a continuación</span>
+                  <hr class="mt-1">
+                </div>
+                <div class="col-12">
+                      <div class="col-md">
+                        {% if not form.instance.id %}
+                          <form class="needs-validation"  method="POST" enctype="multipart/form-data" action="{% url 'users:crear_doctor' %}" >
+                        {% else %}
+                          <form class="needs-validation"  method="POST" enctype="multipart/form-data" action="{% url 'users:editar_doctor' form.instance.id  %}" >
+                        {% endif%}
+                            {% csrf_token %}
+                             <div class="row mx-4">
+                                <div class="col-12 col-sm-6">
+                                  <div class="col-12 mb-2"  style="padding-left: 0px!important;">
+                                    {{form.username.label}}
+                                  </div>
+                                  <div class="input-group mb-3">
+                                      {{form.username}}
+                                  </div>
+                                  {{form.username.errors}}
+                                </div>
+                                <div class="col-12 col-sm-6 mt-2 mt-sm-0">
+                                  <div class="col-12 mb-2" style="padding-left: 0px!important; ">
+                                    {{form.rut_medico.label}}
+                                  </div>
+                                  <div class="input-group mb-3">
+                                      {{form.rut_medico}}
+                                  </div>
+                                    {{form.rut_medico.errors}}
+                                </div>
+                              </div>
+                               <div class="row  mx-4">
+                                <div class="col-12 mb-2">
+                                  {{form.email.label}}
+                                </div>
+                                <div class="col-12 mb-3">
+                                  {{form.email}}
+                                  {{form.email.errors}}
+                                </div>
+                              </div>
+                              <div class="row mx-4">
+                                {% if not form.instance.id %}
+                                  <div class="col-12 col-sm-6">
+                                    <div class="col-12 mb-2"  style="padding-left: 0px!important;">
+                                      {{form.password1.label}}
+                                    </div>
+                                    <div class="input-group mb-3">
+                                        {{form.password1}}
+                                    </div>
+                                    {{form.password1.errors}}
+                                  </div>
+                                  <div class="col-12 col-sm-6 mt-2 mt-sm-0">
+                                    <div class="col-12 mb-2" style="padding-left: 0px!important; ">
+                                      {{form.password2.label}}
+                                    </div>
+                                    <div class="input-group mb-3">
+                                        {{form.password2}}
+                                    </div>
+                                      {{form.password2.errors}}
+                                  </div>
+                                {% endif%}
+                              </div>
+                              <div class="row">
+
+                                  <div class="col">
+                                      <button class="btn btn-primary btn-lg float-right mx-auto btn-submit" type="submit">Guardar</button>
+                                  </div>
+                              </div>
+                        </form>
+                      </div>
+                </div>
+            </div>
+        </div>
+      </div>
+  </section>
+{% endblock Pagina %}

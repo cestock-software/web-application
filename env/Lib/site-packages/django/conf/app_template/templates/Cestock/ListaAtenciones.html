@@ -1,0 +1,113 @@
+{% extends 'Cestock/PaginaPrincipal.html' %} 
+{% load static %} 
+{% load crispy_forms_tags %}
+
+{% block css %}
+{% endblock css %} 
+
+{% block titulo %}Historial Atenciones{% endblock titulo %} 
+
+{% block Pagina %}
+<br>
+<br>
+<div class="container">
+  <div class="row tabla-lista">
+    <div class="col text-left">
+      <div class="col">
+        <h4>Historial Atenciones</h4>
+      </div>
+      <br />
+      <div class="row">
+        <div class="mx-auto col-md-12">
+          <div class="card">
+            <div class="card-body">
+              <form method="get">
+                <div class="form-row">
+                  <div class="form-group col-md-10 mb-0">
+                    {{filtro.form|crispy}}
+                  </div>
+                  <div class="form-group col-md-2 mb-0">
+                    <button class="btn btn-info boton" type="submit" style="position: absolute; right: 0; bottom: 0;">Buscar</button>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+      <br />
+      <div class="row">
+        <div class="mx-auto col-md-12">
+          <div class="card">
+            <div class="card-body">
+              <table class="table table-sm table-striped">
+                <thead>
+                  {% if atenciones %}
+                  <tr>
+                    <th scope="col">ID Atención Médica</th>
+                    <th scope="col">Nro. Ficha</th>
+                    <th scope="col">Rut Paciente</th>
+                    <th scope="col">Nombre Médico</th>
+                    {% comment %} <th scope="col">ID Receta Emitida</th> {% endcomment %}
+                    <th scope="col">Fecha Atención</th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for carnet in carnets %}
+                  {% for atencion in atenciones %}
+                  {% if atencion.nro_ficha == carnet %}
+                  {% comment %} {% for receta in recetas %}
+                  {% if receta.atencion_medica == atencion %} {% endcomment %}
+                  <tr>
+                    <th scope="row">{{ atencion.id }}</td>
+                    <td>{{ atencion.nro_ficha }}</td>
+                    <td>{{ carnet.rut_paciente }}</td>
+                    <td>{{ atencion.nombre_medico }}</td>
+                    {% comment %} <td>{{ receta.id_receta_medica }}</td> {% endcomment %}
+                    <td>{{ atencion.fecha_atencion_medica }}</td>
+                    {% comment %} {% if atencion.fecha_prox_atencion is None %}
+                    <td>-</td>
+                    {% else %}
+                    <td>{{ atencion.fecha_prox_atencion}}</td>
+                    {% endif %} {% endcomment %}
+                    <td>
+                      <div class="btn-group dropright">
+                        <button type="button" class="btn btn-sm btn-info">
+                          <i class="fas fa-info-circle"></i>
+                        </button>
+                        <button type="button" class="btn btn-sm btn-info dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                          <span class="sr-only">Toggle Dropright</span>
+                        </button>
+                        <div class="dropdown-menu">
+                          <button class="dropdown-item" onclick="abrirModal('{% url 'Cestock:InfoDetalleAtencion' atencion.id %}')">Detalle de la Atención</button>
+                          <button class="dropdown-item">Receta Médica</button>
+                        </div>
+                      </div
+                  </tr>
+                  {% comment %} {% endif %}
+                  {% endfor %} {% endcomment %}
+                  {% endif %}
+                  {% endfor %}
+                  {% endfor %}
+                  {% else %}
+                  <h2>No Existen Atención Registrada.</h2>
+                  {% endif %}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal fade" id="info" role="dialog">
+
+</div>
+<br>
+{% endblock Pagina %}
+
+{% block js %}
+  <script src="{% static 'js/listapacientes/modal.js' %}"></script>
+{% endblock js %} 
