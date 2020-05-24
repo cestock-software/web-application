@@ -18,4 +18,5 @@ urlpatterns = [
     path('InfoPersonalPaciente/<str:rut>', views.InfoPersonalPaciente, name='InfoPersonalPaciente'),
     path('InfoCarnetPaciente/<str:rut>', views.InfoCarnetPaciente, name='InfoCarnetPaciente'),
     path('lista-recetas/', views.ListaAtenciones, name='ListaAtenciones'),
+    path('validar_rut/', views.validar_rut, name='validar_rut'),
 ]

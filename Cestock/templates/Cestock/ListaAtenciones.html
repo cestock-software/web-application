@@ -55,13 +55,13 @@
                   {% for carnet in carnets %}
                   {% for atencion in atenciones %}
                   {% if atencion.nro_ficha == carnet %}
-                  {% for receta in recetas %}
-                  {% if receta.id_atencion_medica == atencion %}
+                  <!-- {% for receta in recetas %} -->
+                  <!-- {% if receta.id_atencion_medica == atencion %} -->
                   <tr>
                     <th scope="row">{{ atencion.id }}</td>
                     <td>{{ carnet.rut_paciente }}</td>
                     <td>{{ atencion.nombre_medico }}</td>
-                    <td>{{ receta.id_receta_medica }}</td>
+                    <!-- <td>{{ receta.id_receta_medica }}</td> -->
                     <td>{{ atencion.fecha_atencion_medica }}</td>
                     {% if atencion.fecha_prox_atencion is None %}
                     <td>-</td>
@@ -72,8 +72,8 @@
                       <button type="button" class="btn btn-sm btn-info" onclick="abrirModal('{% url 'Cestock:InfoMedicamentoRecetado' receta.id_receta_medica %}')"><i class="fas fa-file-prescription"></i> Receta</button>
                     </td>
                   </tr>
-                  {% endif %}
-                  {% endfor %}
+                  <!-- {% endif %}
+                  {% endfor %} -->
                   {% endif %}
                   {% endfor %}
                   {% endfor %}

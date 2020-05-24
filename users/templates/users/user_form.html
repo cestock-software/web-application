@@ -60,7 +60,20 @@
                                   <div class="input-group mb-3">
                                       {{form.rut_medico}}
                                   </div>
-                                    {{form.rut_medico.errors}}
+
+
+                                  {% if form.rut_medico.errors %}
+                                  {% for error in form.rut_medico.errors %}
+                                      <div class="with-errors rut_error" role="alert">
+                                        {{ form.rut_medico.errors }}
+                                      </div>
+                                  {% endfor %}
+                                {% else %}
+                                  <div class="with-errors rut_error" role="alert">
+                                  </div>
+                                {% endif %}
+
+
                                 </div>
                               </div>
                                <div class="row  mx-4">
@@ -98,6 +111,8 @@
 
                                   <div class="col">
                                       <button class="btn btn-primary btn-lg float-right mx-auto btn-submit" type="submit">Guardar</button>
+                                      <!-- <input type="submit" value="Guardar" class="btn btn-success btn-lg float-right mx-auto "> -->
+                                      
                                   </div>
                               </div>
                         </form>

@@ -168,6 +168,19 @@ def crearAtencionMedica(request):
     }    
     return render(request,'Cestock/AtencionMedica.html',  context )
 
+def validar_rut(request):
+    resp = 0
+    if request.POST:
+        rut = request.POST['rut']
+        print(rut)
+        usuario = UserMedico.objects.filter(rut_medico=rut).first()
+        if usuario:
+            resp = 1
+
+        output = {
+            'resp': resp,
+        }
+    return JsonResponse(output)
 #-----------------------views Nico--------------------
 def ListaPacientes(request):
     pacientes = Paciente.objects.all()
@@ -222,7 +235,7 @@ def InfoCarnetPaciente(request, rut):
 #     return render(request, "Cestock/ListaRecetas.html", context)
 def ListaAtenciones(request):
     carnets = Carnet_Paciente.objects.all()
-    recetas = Receta_Medica.objects.all()
+    # recetas = Receta_Medica.objects.all()
     atenciones = Atencion_Medica.objects.all()
 
     filtro = RecetaFilter(request.GET, queryset=recetas)
@@ -230,7 +243,7 @@ def ListaAtenciones(request):
 
     context = {
         'carnets': carnets,
-        'recetas': recetas, 
+        # 'recetas': recetas, 
         'atenciones': atenciones, 
         'filtro': filtro
     }

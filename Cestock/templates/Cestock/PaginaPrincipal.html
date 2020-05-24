@@ -69,7 +69,7 @@
             
                 <a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{user.username}}</a>
               <ul class="dropdown-menu dropdown-menu-right">
-                <li class="nav-item"><a class="nav-link" href="#">Home</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'Cestock:PaginaPrincipal' %}">Home</a></li>
                 
 
                 <li role="separator" class="divider"></li>
@@ -310,13 +310,32 @@
 
             if (Fn.validaRut( new_format )){
                 $(element).val(new_format)
+                // validar que ningun rut ya exista en el sistema
+                var rut = $('#id_rut_medico').val();
+
+                $.ajax({
+                    type: "POST",
+                    url: "{% url 'Cestock:validar_rut'%}",
+                    data: {
+                        csrfmiddlewaretoken: '{{ csrf_token }}',
+                        'rut': rut
+                    },
+                    success: function (data, status) {
+                        if (data.resp == 1){
+                          console.log("resp", data.resp)
+                          // $(element).val("")
+                          $('.rut_error').html('<ul class="errorlist"><li>Ya existe un/a Usuario con este/a Rut medico.</li></ul>');
+                        }
+
+                    }
+                });
+
             } else {
-                $(element).val("")
+                // $(element).val("")
                 $('.rut_error').html('<ul class="errorlist"><li>El RUT no es válido</li></ul>');
             }
 
         }
-
         var Fn = {
           // Valida el rut con su cadena completa "XXXXXXXX-X"
           validaRut : function (rutCompleto) {

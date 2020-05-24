@@ -12,7 +12,6 @@ from django.db.models import Q
 
 
 # Create your views here.
-
 class UserCreate(generic.CreateView):
     # Vista del formulario para agregar un usuario 
     model = UserMedico

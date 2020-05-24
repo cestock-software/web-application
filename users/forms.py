@@ -103,6 +103,7 @@ class UserMedicoForm(UserCreationForm):
                 'class': 'form-control valida-rut',
                 'placeholder': 'Rut...',
                 'required': False,
+                
             })
     )
 
