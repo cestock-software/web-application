@@ -108,6 +108,7 @@ class FormPrescripcion(forms.ModelForm):
         }
 
 
+# ----------------------Forms Nico------------------------
 class CarnetForm(forms.ModelForm):
 
     class Meta:
@@ -140,8 +141,29 @@ class CarnetForm(forms.ModelForm):
             'cesfam': forms.TextInput(attrs={'class': 'form-control-sm form-control', 'readonly': ''}),
         }
 
+class DetalleAtencionForm(forms.ModelForm):
 
-# ----------------------Forms Nico------------------------
+    class Meta:
+        model = Detalle_Atencion
+
+        fields = '__all__'
+
+        exclude = ['atencion_medica']
+
+        labels = {
+            'sintomas': 'Síntomas',
+            'diagnostico': 'Diagnóstico',
+            'tratamiento': 'Tratamiento',
+            'observacion': 'Observación',
+        }
+
+        widgets = {
+            'sintomas': forms.Textarea(attrs={'class': 'form-control-sm form-control', 'readonly': ''}),
+            'diagnostico': forms.Textarea(attrs={'class': 'form-control-sm form-control', 'readonly': ''}),
+            'tratamiento': forms.Textarea(attrs={'class': 'form-control-sm form-control', 'readonly': ''}),
+            'observacion': forms.Textarea(attrs={'class': 'form-control-sm form-control', 'readonly': ''}),
+        }
+
 class PacienteForm(forms.ModelForm):
 
     class Meta:
@@ -178,6 +200,7 @@ class PacienteForm(forms.ModelForm):
             'nro_familiar': forms.TextInput(attrs={'class': 'form-control-sm form-control', 'readonly': ''}),
             'email_familiar': forms.TextInput(attrs={'class': 'form-control-sm form-control', 'readonly': ''}),
         }
+
 
 # ----------------------Forms Alex------------------------
 

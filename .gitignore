@@ -5,8 +5,9 @@ env/
 *.pot
 *.pyc
 __pycache__/
-local_settings.py
+migrations/
 
+local_settings.py
 
 */*/*/__pycache__/
 

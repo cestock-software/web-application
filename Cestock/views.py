@@ -222,24 +222,13 @@ def InfoCarnetPaciente(request, rut):
 
     return render(request, 'Cestock/InfoCarnet.html', {'form': form})
 
-
-
-# def ListaRecetas(request):
-#     recetas = Receta_Medica.objects.all()
-
-#     filtro = RecetaFilter(request.GET, queryset=recetas)
-#     recetas = filtro.qs
-
-#     context = {'recetas': recetas, 'filtro': filtro}
-
-#     return render(request, "Cestock/ListaRecetas.html", context)
 def ListaAtenciones(request):
     carnets = Carnet_Paciente.objects.all()
     # recetas = Receta_Medica.objects.all()
     atenciones = Atencion_Medica.objects.all()
 
-    filtro = RecetaFilter(request.GET, queryset=recetas)
-    recetas = filtro.qs
+    filtro = AtencionFilter(request.GET, queryset=atenciones)
+    atenciones = filtro.qs
 
     context = {
         'carnets': carnets,
@@ -248,6 +237,18 @@ def ListaAtenciones(request):
         'filtro': filtro
     }
     return render(request, "Cestock/ListaAtenciones.html", context)
+
+def InfoDetalleAtencion(request, id_atencion):
+    detalle = Detalle_Atencion.objects.get(atencion_medica=id_atencion)
+
+    if request.method == 'GET':
+        form = DetalleAtencionForm(instance=detalle)
+    
+    context = {
+        'form': form
+    }
+
+    return render ('Cestock/InfoDetalleAtencion.html', context)
 
 def InfoMedicamentoRecetado(request, id_med):
     med_recetado = Medicamento_Recetado.objects.get(id_receta_medica=id_med)
