@@ -44,8 +44,7 @@ INSTALLED_APPS = [
     'django_filters',
 ]
 
-AUTH_USER_MODEL = 'users.UserMedico'
-
+AUTH_USER_MODEL = 'users.UserSistema'
 
 
 MIDDLEWARE = [

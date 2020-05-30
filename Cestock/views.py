@@ -53,21 +53,31 @@ def index(request):
     ''' Vista para iniciar sesión '''
     if request.user.is_authenticated:
         return HttpResponseRedirect(reverse('Cestock:PaginaPrincipal'))
-
+    user=None
     if request.method == 'POST':
-        username = request.POST.get('username')
+        rut = request.POST.get('rut')
         password = request.POST.get('password')
-
-        user = auth.authenticate(username=username, password=password)
+        userobj=UserSistema.objects.filter(rut=rut,tipo_usuario="medico",estado=True).first()
+        if userobj:
+            user = auth.authenticate(username=userobj.username, password=password)
         form = LoginForm(user, request.POST)
 
-        if form.is_valid() and user:
+        if user:
             auth.login(request=request, user=user)
 
             return redirect(reverse('Cestock:PaginaPrincipal'))
         else:
-            print(form.errors)
-            messages.add_message(request, messages.ERROR, 'Nombre de usuario o contraseña incorrecta',extra_tags='inicio de sesión')
+            userobj=UserSistema.objects.filter(rut=rut,tipo_usuario="administrador").first()
+            if userobj:
+                user = auth.authenticate(username=userobj.username, password=password)
+            form = LoginForm(user, request.POST)
+            if user:
+                auth.login(request=request, user=user)
+
+                return redirect(reverse('Cestock:PaginaPrincipal'))
+            else:
+                print(form.errors)
+                messages.add_message(request, messages.ERROR, 'Rut de usuario o contraseña incorrecta',extra_tags='inicio de sesión')
     else:
         form = LoginForm()
     return render(request, 'Cestock/login.html', {'form': form, 'hidden_register': True})
@@ -173,7 +183,7 @@ def validar_rut(request):
     if request.POST:
         rut = request.POST['rut']
         print(rut)
-        usuario = UserMedico.objects.filter(rut_medico=rut).first()
+        usuario = UserSistema.objects.filter(rut=rut).first()
         if usuario:
             resp = 1
 

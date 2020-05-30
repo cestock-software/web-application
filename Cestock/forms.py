@@ -7,17 +7,13 @@ from django.contrib.admin.forms import AdminPasswordChangeForm
 
 
 User = get_user_model()
-class FormUsuarios(forms.ModelForm):
-    class Meta:
-        model=UserMedico
-        fields=['username','password']
 
-class LoginForm(AuthenticationForm):
+class LoginForm(forms.ModelForm):
     ''' Formulario para el login '''
-    username = forms.CharField(
+    rut = forms.CharField(
         widget=forms.TextInput(attrs={
             'autofocus': True,
-            'placeholder': 'Email',
+            'placeholder': 'username',
             'class': 'form-control mb-4'
         })
     )
@@ -31,7 +27,8 @@ class LoginForm(AuthenticationForm):
     )
 
     class Meta:
-        model = UserMedico
+        model = UserSistema
+        fields =['rut','password']
 
 class FormAtencion(forms.ModelForm):
     class Meta:
