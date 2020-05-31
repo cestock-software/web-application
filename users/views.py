@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.views import generic
 from .models import UserSistema
 from .forms import UserMedicoForm, UserMedicoEditForm
+from django.contrib.auth.forms import PasswordChangeForm
 from django.urls import reverse_lazy
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.urls import reverse
@@ -9,7 +10,8 @@ from functools import reduce
 from django.http import JsonResponse, HttpResponse
 import operator
 from django.db.models import Q
-
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth import update_session_auth_hash
 
 # Create your views here.
 class UserCreate(generic.CreateView):
@@ -327,3 +329,20 @@ def invalidar_usuario(request):
         return JsonResponse({"status": 1})
     else:
         return JsonResponse({"status": 0})
+
+def user_password_change(request):
+    ''' Vista del formulario para cambiar contraseña de un usuario'''
+
+    user = request.user
+    form = PasswordChangeForm(user)
+    if request.method == 'POST':
+        form = PasswordChangeForm(user, request.POST)
+        if form.is_valid():
+            print(form)
+            print('tas pendejo')
+            user = form.save()
+            update_session_auth_hash(request, form.user)
+            return redirect(reverse('Cestock:PaginaPrincipal'))
+        else:
+            print(form.errors)
+    return render(request, 'users/password_update.html', {'form': form, 'user': user})

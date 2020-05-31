@@ -93,14 +93,10 @@
 
                 
                 <li class="nav-item"><a class="nav-link" href="{% url 'users:editar_doctor' request.user.id %}">Editar Perfil</a></li>
-                <!-- {% if user.is_staff %}
+                <li class="nav-item"><a class="nav-link" href="{% url 'users:password_update' %}">Editar Contraseña</a></li>
+   
                 <li role="separator" class="divider"></li>
-                <li class="nav-item"><a class="nav-link" href="{% url 'users:crear_doctor' %}">Registrar Doctor</a></li>
-                <li role="separator" class="divider"></li>
-                <li class="nav-item"><a class="nav-link" href="{% url 'users:lista_users' %}">Lista doctores</a></li>
-                {% endif %} -->
-                <li role="separator" class="divider"></li>
-                <li class="nav-item"><a class="nav-link" href="{% url 'Cestock:logout' %}">Salir</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'Cestock:logoutt' %}">Salir</a></li>
               </ul>
             </li>
           </ul>
@@ -600,7 +596,7 @@
         <br>
         <br>
         <h2>Se genero un error inesperado,por favor regrese al Inicio de Sesión</h2>
-        <a class="btn btn-danger" href="{% url 'Cestock:login' %}">Inicio de Sesión</a>
+        <a class="btn btn-danger" href="{% url 'Cestock:loginn' %}">Inicio de Sesión</a>
     </div>
 {% endif %}
 </body>

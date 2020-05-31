@@ -1,13 +1,16 @@
-from django.urls import path
+from django.urls import path,include
 from . import views
+
+
 
 app_name = 'Cestock'
 
 urlpatterns = [
-    path('', views.index, name='login'),
-    path('logout/', views.logout, name="logout"),
+    path('', views.index, name='loginn'),
+    path('logout/', views.logoutt, name="logoutt"),
 
     path('main/', views.PaginaPrincipal, name='PaginaPrincipal'),
+    path('recuperar_contraseña/', views.base, name='base'),
     path('atencion-medica/', views.crearAtencionMedica, name='AtencionMedica'),
     path('atencion-medica/detalle/', views.get_atencion_detalle, name='atencion-detalle'),
     # path('prescripcion/<int:pk>/', views.Prescripcion, name='Prescripcion'),
@@ -19,4 +22,5 @@ urlpatterns = [
     path('InfoCarnetPaciente/<str:rut>', views.InfoCarnetPaciente, name='InfoCarnetPaciente'),
     path('lista-atenciones/', views.ListaAtenciones, name='ListaAtenciones'),
     path('validar_rut/', views.validar_rut, name='validar_rut'),
+    # path('account/',include('django.contrib.auth.urls')),
 ]

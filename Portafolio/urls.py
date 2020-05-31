@@ -20,4 +20,5 @@ urlpatterns = [
     path('', include('Cestock.urls')),
     path('user/', include('users.urls')),
     path('admin/', admin.site.urls),
+    path('account/',include('django.contrib.auth.urls')),
 ]

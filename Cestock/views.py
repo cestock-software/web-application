@@ -83,9 +83,9 @@ def index(request):
     return render(request, 'Cestock/login.html', {'form': form, 'hidden_register': True})
 
 
-def logout(request):
+def logoutt(request):
     auth.logout(request)
-    return redirect(reverse('Cestock:login'))
+    return redirect(reverse('Cestock:loginn'))
 
 
 def PaginaPrincipal(request):
@@ -272,3 +272,7 @@ def InfoMedicamentoRecetado(request, id_med):
     }
 
     return render(request, 'Cestock/InfoMedicamentoRecetado.html', context)
+
+
+def base(request):   
+    return render(request,'Cestock/base.html')

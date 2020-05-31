@@ -14,6 +14,6 @@ urlpatterns = [
     #envian los datos de los usuarios a listas invalidar_usuario
     path('datatable2/', views.usuario_lista_database2, name='usuario_lista_database2'),
     path('datatable/', views.usuario_lista_database, name='usuario_lista_database'),
-
+    path('update/password/', views.user_password_change, name='password_update'),
 
 ]
