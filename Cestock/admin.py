@@ -1,7 +1,7 @@
 from django.contrib import admin
 from .models import *
 from django.conf import settings
-from users.models import UserMedico
+from users.models import UserSistema
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from users.forms import UserChangeForm
 
@@ -10,9 +10,9 @@ class UserAdminView(BaseUserAdmin):
     # change_password_form = MyAdminPasswordChangeForm
     form = UserChangeForm
 
-    list_display = ('username', 'email', 'rut_medico', 'is_superuser', 'is_active')
+    list_display = ('username', 'email', 'rut', 'is_superuser', 'is_active')
     fieldsets = (
-        (None, {'fields': ('username', 'email', 'password', 'rut_medico')}),
+        (None, {'fields': ('username', 'email', 'password', 'rut')}),
         ('Permissions', {'fields': ('is_active', 'is_superuser', 'is_staff')})
     )
 
@@ -73,7 +73,7 @@ class ListaUsuario(admin.ModelAdmin):
 
 admin.site.register(Recordatorio, ListaRecordatorio)
 admin.site.register(Tipo_Retiro, ListaTipoRetiro)
-admin.site.register(UserMedico, UserAdminView)
+admin.site.register(UserSistema, UserAdminView)
 admin.site.register(Atencion_Medica, ListaAtencion)
 admin.site.register(Carnet_Paciente, ListaCarnet)
 admin.site.register(Detalle_Atencion, ListaDetalleAtencion)

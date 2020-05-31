@@ -53,29 +53,39 @@ def index(request):
     ''' Vista para iniciar sesión '''
     if request.user.is_authenticated:
         return HttpResponseRedirect(reverse('Cestock:PaginaPrincipal'))
-
+    user=None
     if request.method == 'POST':
-        username = request.POST.get('username')
+        rut = request.POST.get('rut')
         password = request.POST.get('password')
-
-        user = auth.authenticate(username=username, password=password)
+        userobj=UserSistema.objects.filter(rut=rut,tipo_usuario="medico",estado=True).first()
+        if userobj:
+            user = auth.authenticate(username=userobj.username, password=password)
         form = LoginForm(user, request.POST)
 
-        if form.is_valid() and user:
+        if user:
             auth.login(request=request, user=user)
 
             return redirect(reverse('Cestock:PaginaPrincipal'))
         else:
-            print(form.errors)
-            messages.add_message(request, messages.ERROR, 'Nombre de usuario o contraseña incorrecta',extra_tags='inicio de sesión')
+            userobj=UserSistema.objects.filter(rut=rut,tipo_usuario="administrador").first()
+            if userobj:
+                user = auth.authenticate(username=userobj.username, password=password)
+            form = LoginForm(user, request.POST)
+            if user:
+                auth.login(request=request, user=user)
+
+                return redirect(reverse('Cestock:PaginaPrincipal'))
+            else:
+                print(form.errors)
+                messages.add_message(request, messages.ERROR, 'Rut de usuario o contraseña incorrecta',extra_tags='inicio de sesión')
     else:
         form = LoginForm()
     return render(request, 'Cestock/login.html', {'form': form, 'hidden_register': True})
 
 
-def logout(request):
+def logoutt(request):
     auth.logout(request)
-    return redirect(reverse('Cestock:login'))
+    return redirect(reverse('Cestock:loginn'))
 
 
 def PaginaPrincipal(request):
@@ -168,6 +178,19 @@ def crearAtencionMedica(request):
     }    
     return render(request,'Cestock/AtencionMedica.html',  context )
 
+def validar_rut(request):
+    resp = 0
+    if request.POST:
+        rut = request.POST['rut']
+        print(rut)
+        usuario = UserSistema.objects.filter(rut=rut).first()
+        if usuario:
+            resp = 1
+
+        output = {
+            'resp': resp,
+        }
+    return JsonResponse(output)
 #-----------------------views Nico--------------------
 def ListaPacientes(request):
     pacientes = Paciente.objects.all()
@@ -211,7 +234,7 @@ def InfoCarnetPaciente(request, rut):
 
 def ListaAtenciones(request):
     carnets = Carnet_Paciente.objects.all()
-    recetas = Receta_Medica.objects.all()
+    # recetas = Receta_Medica.objects.all()
     atenciones = Atencion_Medica.objects.all()
 
     filtro = AtencionFilter(request.GET, queryset=atenciones)
@@ -219,7 +242,7 @@ def ListaAtenciones(request):
 
     context = {
         'carnets': carnets,
-        'recetas': recetas, 
+        # 'recetas': recetas, 
         'atenciones': atenciones, 
         'filtro': filtro
     }
@@ -249,3 +272,7 @@ def InfoMedicamentoRecetado(request, id_med):
     }
 
     return render(request, 'Cestock/InfoMedicamentoRecetado.html', context)
+
+
+def base(request):   
+    return render(request,'Cestock/base.html')

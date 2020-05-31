@@ -50,6 +50,19 @@
 
         <div class="navbar-collapse collapse" id="navbarColor03" style="background-color: #17a2b8!important;">
           <ul class="navbar-nav mr-auto">
+            {% if user.is_staff %}
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'users:crear_doctor' %}">Registrar Usuarios</a>
+              </li>
+     
+               <li class="nav-item">
+                 <a class="nav-link" href="{% url 'users:lista_users' %}">Lista Usuarios</a>
+              </li>
+
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'users:lista_users2' %}">Lista Usuarios Inactivos</a>
+             </li>
+            {% else %}
             <li class="nav-item">
               <a class="nav-link" href="{% url 'Cestock:ListaPacientes' %}">Pacientes</a>
             </li>
@@ -63,6 +76,7 @@
               <li class="nav-item">
                 <a class="nav-link" href="{% url 'Cestock:ListaAtenciones' %}">Historial Atenciones</a>
               </li>
+              {% endif %}
           </ul>
 
           <ul class=" navbar-nav navbar-right">
@@ -72,21 +86,17 @@
             
                 <a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{user.username}}</a>
               <ul class="dropdown-menu dropdown-menu-right">
-                <li class="nav-item"><a class="nav-link" href="#">Home</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'Cestock:PaginaPrincipal' %}">Home</a></li>
                 
 
                 <li role="separator" class="divider"></li>
 
                 
                 <li class="nav-item"><a class="nav-link" href="{% url 'users:editar_doctor' request.user.id %}">Editar Perfil</a></li>
-                {% if user.is_staff %}
+                <li class="nav-item"><a class="nav-link" href="{% url 'users:password_update' %}">Editar Contraseña</a></li>
+   
                 <li role="separator" class="divider"></li>
-                <li class="nav-item"><a class="nav-link" href="{% url 'users:crear_doctor' %}">Registrar Doctor</a></li>
-                <li role="separator" class="divider"></li>
-                <li class="nav-item"><a class="nav-link" href="{% url 'users:lista_users' %}">Lista doctores</a></li>
-                {% endif %}
-                <li role="separator" class="divider"></li>
-                <li class="nav-item"><a class="nav-link" href="{% url 'Cestock:logout' %}">Salir</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'Cestock:logoutt' %}">Salir</a></li>
               </ul>
             </li>
           </ul>
@@ -312,15 +322,44 @@
 
             var new_format = formatRut($(element).val())
 
-            if (Fn.validaRut( new_format )){
+           if (Fn.validaRut( new_format )){
+
                 $(element).val(new_format)
+                // validar que ningun rut ya exista en el sistema al agregarlo en el campo
+                var rut_sistema = new_format;
+                var rut_last_part = rut.split('.')[2]
+                var rut_sin_identificador = rut_sistema.split('.')[0] + '' + rut_sistema.split('.')[1] + '' + rut_last_part.split('-')[0]
+                var rut_identificador = rut.split('-')[1]
+
+                var rut_sistema_sin_formato = rut_sin_identificador + '' + rut_identificador
+
+                var rut = rut_sistema_sin_formato
+                var rut_editado = '{{form.instance.rut}}'
+                console.log(rut_editado);
+                if (rut_editado != rut ){
+
+                  $.ajax({
+                      type: "POST",
+                      url: "{% url 'Cestock:validar_rut'%}",
+                      data: {
+                          csrfmiddlewaretoken: '{{ csrf_token }}',
+                          'rut': rut
+                      },
+                      success: function (data, status) {
+                          if (data.resp == 1){
+                            $('.rut_error').html('<ul class="errorlist"><li>Ya existe un/a Usuario con este/a Rut .</li></ul>');
+                          }
+
+                      }
+                  });
+                }
+
             } else {
-                $(element).val("")
+                // $(element).val("")
                 $('.rut_error').html('<ul class="errorlist"><li>El RUT no es válido</li></ul>');
             }
 
         }
-
         var Fn = {
           // Valida el rut con su cadena completa "XXXXXXXX-X"
           validaRut : function (rutCompleto) {
@@ -557,7 +596,7 @@
         <br>
         <br>
         <h2>Se genero un error inesperado,por favor regrese al Inicio de Sesión</h2>
-        <a class="btn btn-danger" href="{% url 'Cestock:login' %}">Inicio de Sesión</a>
+        <a class="btn btn-danger" href="{% url 'Cestock:loginn' %}">Inicio de Sesión</a>
     </div>
 {% endif %}
 </body>
