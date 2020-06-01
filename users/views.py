@@ -12,6 +12,7 @@ import operator
 from django.db.models import Q
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import update_session_auth_hash
+from django.contrib import messages
 
 # Create your views here.
 class UserCreate(generic.CreateView):
@@ -37,6 +38,7 @@ def user_update(request, pk):
         if form.is_valid():
             user_editado = form.save()
             user_editado.save()
+            messages.add_message(request, messages.SUCCESS, 'se ha editado con exito', extra_tags='Editar perfil de usuario')
             if request.user.is_staff:
                 return redirect(reverse('users:lista_users'))
             else:

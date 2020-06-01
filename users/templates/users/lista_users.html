@@ -73,6 +73,22 @@
        
 <script type="text/javascript">
 
+
+    {% if messages %}
+        {% for message in messages %}
+            {% if message.level == 25 %}
+                Swal.fire({
+                    {% if message.extra_tags %}
+                        title: "{{ message.extra_tags }}",
+                    {% endif %}
+                    text: "{{ message }}",
+                    type: 'success',
+                });
+            {% endif %}
+        {% endfor %}
+    {% endif %}
+
+
     $(document).ready( function () {
 
             $("#search_filter").show();
